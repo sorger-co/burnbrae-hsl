@@ -1,0 +1,110 @@
+/* 
+Theme Name: Healthcare & Senior Living
+Description: Theme for the Healthcare & Senior Living website
+Author: Sorger & Co
+Author URI: https://sorger.co/
+Template: hello-elementor
+Version: 1.0
+Text Domain: healthcare-senior-living
+*/
+
+p {
+	margin-top: 0;
+}
+p.no-margin-bottom,
+.no-margin-bottom p {
+	margin-bottom: 0;
+}
+
+.last-no-margin-bottom p:last-of-type {
+	margin-bottom: 0;
+}
+
+/* Header */
+#header-menu .eael-simple-menu li.menu-highlight a {
+	background-color: var(--e-global-color-3d3fc2a);
+	color: #fff;
+	border-radius: 13px;
+	padding-left: 12px;
+	padding-right: 12px;
+}
+#header-menu .eael-simple-menu li.menu-highlight:hover a {
+	background-color: var(--e-global-color-secondary);
+}
+
+/* Responsive */
+@media screen and (min-width: 1361px) {
+	#header-menu .eael-simple-menu-container {
+		min-height: unset;
+	}
+	#header-menu .eael-simple-menu li:not(:last-of-type) {
+		margin-right: 19px;
+	}
+	#header-menu .eael-simple-menu li.menu-highlight:not(:last-of-type) {
+		margin-right: 13px;
+		margin-left: 8.5px;
+	}
+	#header-menu .eael-simple-menu.eael-simple-menu-horizontal li ul {
+		width: 110px;
+	}
+	#header-menu .eael-simple-menu li ul li {
+		margin-right: 0 !important;
+	}
+	#header-menu .eael-simple-menu li ul li a {
+		text-align: center;
+		border-bottom: 1px solid var(--e-global-color-c80fc3f);
+		padding: 10px 0;
+	}
+	#header-menu .eael-simple-menu li ul li:last-of-type a {
+		border-bottom: none;
+	}
+}
+
+@media screen and (max-width: 1360px) {
+	#header-menu .eael-simple-menu li > a {
+		padding: 10px 0;
+	}
+	#header-menu #menu-main-menu {
+		padding: 0 20px 20px;
+		background-color: rgba(255, 255, 255, 0.85);
+		width: 145px;
+		right: -20px;
+	}
+	#header-menu .eael-simple-menu li > a {
+		font-size: 10.2px;
+		letter-spacing: 0.5px;
+	}
+	#header-menu .eael-simple-menu li.menu-highlight {
+		text-align: end;
+	}
+	#header-menu .eael-simple-menu li.menu-highlight:not(:last-of-type) {
+		padding: 2px 0 9px;
+	}
+	#header-menu .eael-simple-menu li.menu-highlight a {
+		display: inline-block;
+		padding: 7.5px 16px;
+	}
+	#header-menu .eael-simple-menu-toggle-text {
+		display: none;
+	}
+	.img-side-box-resp {
+		aspect-ratio: 1/1;
+	}
+
+	#footer-menu li.menu-item {
+		display: block;
+		width: 100%;
+		margin-right: 0;
+	}
+	#footer-menu li.menu-item:not(:last-of-type) {
+		margin-bottom: 17px;
+	}
+	#footer-menu li.menu-item a {
+		justify-content: center;
+	}
+}
+@media screen and (max-width: 767px) {
+	.img-side-box-resp {
+		aspect-ratio: 8/5;
+	}
+}
