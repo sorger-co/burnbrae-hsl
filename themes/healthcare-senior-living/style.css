@@ -105,6 +105,6 @@ p.no-margin-bottom,
 }
 @media screen and (max-width: 767px) {
 	.img-side-box-resp {
-		aspect-ratio: 8/5;
+		aspect-ratio: 4/3;
 	}
 }
