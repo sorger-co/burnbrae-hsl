@@ -1,0 +1,26 @@
+name: Deploy WordPress Theme to Lightsail
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy Theme via SSH
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H YOUR_LIGHTSAIL_IP >> ~/.ssh/known_hosts
+
+      - name: Deploy Theme Files
+        run: |
+          scp -r ./wp-content/themes/YOUR_THEME_NAME bitnami@YOUR_LIGHTSAIL_IP:/opt/bitnami/wordpress/wp-content/themes/
