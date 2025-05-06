@@ -23,4 +23,4 @@ jobs:
 
       - name: Deploy Theme Files
         run: |
-          scp -r ./wp-content/themes/healthcare-senior-living bitnami@35.182.224.146:/opt/bitnami/wordpress/wp-content/themes/
+          scp -r /opt/bitnami/wordpress/wp-content/themes/healthcare-senior-living bitnami@35.182.224.146:/opt/bitnami/wordpress/wp-content/themes/
