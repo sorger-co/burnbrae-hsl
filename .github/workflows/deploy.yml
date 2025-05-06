@@ -14,6 +14,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: List checked-out files
+        run: ls -R
+
       - name: Setup SSH Key
         run: |
           mkdir -p ~/.ssh
