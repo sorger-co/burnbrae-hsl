@@ -17,3 +17,15 @@ function current_year_shortcode() {
 	return $year;	
 }
 add_shortcode('year', 'current_year_shortcode');
+
+/**
+ * WOOCOMMERCE
+ * 
+ */
+
+/* Change number of products that are displayed per page */
+add_filter( 'loop_shop_per_page', 'hsl_loop_shop_per_page', 20 );
+function hsl_loop_shop_per_page( $cols ) {
+  $cols = 24;
+  return $cols;
+}
