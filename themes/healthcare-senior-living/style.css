@@ -32,6 +32,82 @@ p.no-margin-bottom,
 	background-color: var(--e-global-color-secondary);
 }
 
+/* WooCommerce */
+.woocommerce-products-header .page-title,
+.woocommerce-products-header .term-description,
+.woocommerce-no-products-found,
+.hsl-loop-container {
+	margin: 0 80px;
+	text-align: center;
+	padding: 15px 0;
+}
+.woocommerce-products-header .page-title {
+	border-bottom: 1px solid var(--e-global-color-c80fc3f);
+}
+.woocommerce-no-products-found {
+	margin-top: 1em;
+}
+.hsl-loop-container {
+	padding: 30px;
+}
+.hsl-loop-content-container {
+	background-color: var(--e-global-color-e2dadd4);
+	padding: 100px 35px 20px;
+	margin-top: -100px;
+	position: relative;
+	z-index: 1;
+	min-height: 205px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+.hsl-loop-content-container > div {
+	text-align: left;
+}
+.hsl-loop-img-container {
+	padding: 0 35px;
+	position: relative;
+	z-index: 2;
+}
+.hsl-loop-img-container img {
+	margin: 0 !important;
+}
+.woocommerce ul.products li.product .woocommerce-loop-category__title,
+.woocommerce ul.products li.product .woocommerce-loop-product__title {
+	font-family: var(--e-global-typography-secondary-font-family), serif;
+	font-size: 24px;
+	font-weight: 400;
+	line-height: 1.2em;
+	margin: 10px 0;
+	padding: 0;
+}
+.hsl-loop-content-container p {
+	margin: 0;
+	font-size: 18px;
+	line-height: 1.3em;
+}
+.woocommerce ul.products li.product strong {
+	display: inline !important;
+}
+.woocommerce ul.products li.product .button {
+	background-color: var(--e-global-color-text);
+	color: #fff;
+	border-radius: 15px;
+	padding: 5px 15px;
+	font-size: 18px;
+	line-height: 1em;
+	font-weight: 400;
+	align-self: center;
+}
+.woocommerce ul.products li.product .button:hover {
+	background-color: #fff;
+	color: var(--e-global-color-secondary);
+}
+.woocommerce ul.products li.product .button:after {
+	content: '►';
+	margin-left: 0.3em;
+}
+
 /* Responsive */
 @media screen and (min-width: 1361px) {
 	#header-menu .eael-simple-menu-container {
@@ -101,6 +177,13 @@ p.no-margin-bottom,
 	}
 	#footer-menu li.menu-item a {
 		justify-content: center;
+	}
+
+	.woocommerce-products-header .page-title,
+	.woocommerce-products-header .term-description,
+	.woocommerce-no-products-found,
+	.hsl-loop-container {
+		margin: 0 20px;
 	}
 }
 @media screen and (max-width: 767px) {
