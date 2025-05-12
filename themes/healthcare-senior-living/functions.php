@@ -11,6 +11,8 @@ function hsl_enqueue_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'hsl_enqueue_scripts', 20 );
 
+include(get_stylesheet_directory() . '/inc/woocommerce.php');
+
 /* Current Year Shortcode */
 function current_year_shortcode() {
 	$year = date('Y');	
@@ -18,14 +20,3 @@ function current_year_shortcode() {
 }
 add_shortcode('year', 'current_year_shortcode');
 
-/**
- * WOOCOMMERCE
- * 
- */
-
-/* Change number of products that are displayed per page */
-add_filter( 'loop_shop_per_page', 'hsl_loop_shop_per_page', 20 );
-function hsl_loop_shop_per_page( $cols ) {
-  $cols = 24;
-  return $cols;
-}
