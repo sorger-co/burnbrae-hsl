@@ -42,7 +42,7 @@ add_action( 'woocommerce_after_shop_loop_item_title', 'hsl_display_short_descipt
  * Link image in loop
  */
 remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_product_link_close', 5 );
-add_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_link_close', 20 );
+add_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_link_close', 11 );
 
 /**
  * Link title in loop
@@ -84,7 +84,7 @@ function hsl_open_loop_image_container() {
 }
 add_action( 'woocommerce_before_shop_loop_item', 'hsl_open_loop_image_container', 8 );
 
-add_action( 'woocommerce_before_shop_loop_item_title', 'hsl_close_div_container', 11 );
+add_action( 'woocommerce_before_shop_loop_item_title', 'hsl_close_div_container', 13 );
 
 /**
  * Add loop title container
@@ -94,3 +94,22 @@ function hsl_open_loop_content_inner_container() {
 }
 add_action( 'woocommerce_shop_loop_item_title', 'hsl_open_loop_content_inner_container', 8 );
 add_action( 'woocommerce_after_shop_loop_item_title', 'hsl_close_div_container', 21 );
+
+/**
+ * Add attributes in loop
+ */
+add_action('woocommerce_before_shop_loop_item_title', 'display_custom_product_attributes_on_loop', 12 );
+function display_custom_product_attributes_on_loop() {
+    global $product;
+
+    $value = $product->get_attribute('Attribute');
+
+    if ( ! empty($value) ) {
+        $attributes = array_map(function($attr) {
+            // Convert attribute names to lowercase and replace spaces with dashes
+            return '<div class="hsl-attr ' . esc_attr( strtolower( str_replace(' ', '-', $attr) ) ) . '"></div>';
+        }, explode(', ', $value)); // Assuming attributes are comma-separated
+
+        echo '<div class="hsl-prod-attrs">'. implode(' ', $attributes) . '</div>';
+    }
+}
