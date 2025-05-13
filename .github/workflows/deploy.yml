@@ -1,0 +1,29 @@
+name: Deploy WordPress Theme to Lightsail
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy Theme via SSH
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: List checked-out files
+        run: ls -R
+
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H 35.182.224.146 >> ~/.ssh/known_hosts
+
+      - name: Deploy Theme Files
+        run: |
+          scp -r "$GITHUB_WORKSPACE/themes/healthcare-senior-living" bitnami@35.182.224.146:/opt/bitnami/wordpress/wp-content/themes/
