@@ -38,7 +38,6 @@ do_action( 'woocommerce_before_main_content' );
 do_action( 'woocommerce_shop_loop_header' );
 
 if ( woocommerce_product_loop() ) {
-
 	/**
 	 * Hook: woocommerce_before_shop_loop.
 	 *
@@ -51,15 +50,43 @@ if ( woocommerce_product_loop() ) {
 	woocommerce_product_loop_start();
 
 	if ( wc_get_loop_prop( 'total' ) ) {
-		while ( have_posts() ) {
-			the_post();
+		if ( is_product_category() ) {
+			$cate = get_queried_object();
+			$parent_category_ID = $cate->term_id;
+			$args = array(
+					'hierarchical' => 1,
+					'show_option_none' => '',
+					'hide_empty' => 1,
+					'parent' => $parent_category_ID,
+					'taxonomy' => 'product_cat'
+			);
+			$subcategories = get_categories($args);
+			if ($subcategories) {
+				foreach ($subcategories as $subcategory) {
+						echo '<h2 class="hsl_prod_subcat">'.$subcategory->name.'</h2>';
+						echo do_shortcode( '[product_category category="'. $subcategory->term_id .'" limit="24" columns="3"]' );
+				}
+			} else {
+				while ( have_posts() ) {
+					the_post();
+					/**
+					 * Hook: woocommerce_shop_loop.
+					 */
+					do_action( 'woocommerce_shop_loop' );
 
-			/**
-			 * Hook: woocommerce_shop_loop.
-			 */
-			do_action( 'woocommerce_shop_loop' );
+					wc_get_template_part( 'content', 'product' );
+				}
+			}
+		} else {
+			while ( have_posts() ) {
+				the_post();
+				/**
+				 * Hook: woocommerce_shop_loop.
+				 */
+				do_action( 'woocommerce_shop_loop' );
 
-			wc_get_template_part( 'content', 'product' );
+				wc_get_template_part( 'content', 'product' );
+			}
 		}
 	}
 
