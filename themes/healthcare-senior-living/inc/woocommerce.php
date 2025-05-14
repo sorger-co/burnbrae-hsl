@@ -113,3 +113,11 @@ function display_custom_product_attributes_on_loop() {
         echo '<div class="hsl-prod-attrs">'. implode(' ', $attributes) . '</div>';
     }
 }
+
+/**
+ * Loop product link
+ */
+add_filter( 'woocommerce_product_add_to_cart_text', 'woo_archive_page_cart_button_custom_text' );
+function woo_archive_page_cart_button_custom_text() {
+    return __( 'View Product', 'woocommerce' );
+}
