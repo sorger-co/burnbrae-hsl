@@ -34,15 +34,19 @@ p.no-margin-bottom,
 
 /* WooCommerce */
 .woocommerce-products-header .page-title,
-.woocommerce-products-header .term-description,
 .woocommerce-no-products-found,
 .hsl-loop-container {
 	margin: 0 80px;
 	text-align: center;
 	padding: 15px 0;
 }
-.woocommerce-products-header .page-title {
+.woocommerce-products-header .page-title,
+.hsl_prod_subcat {
 	border-bottom: 1px solid var(--e-global-color-c80fc3f);
+}
+.hsl_prod_subcat {
+	margin: 0;
+	padding: 15px 0;
 }
 .woocommerce-no-products-found {
 	margin-top: 1em;
@@ -89,7 +93,8 @@ p.no-margin-bottom,
 .woocommerce ul.products li.product strong {
 	display: inline !important;
 }
-.woocommerce ul.products li.product .button {
+.woocommerce ul.products li.product .button,
+.hsl-loop-header .hsl-loop-header___content .term-description a {
 	background-color: var(--e-global-color-text);
 	color: #fff;
 	border-radius: 15px;
@@ -99,7 +104,8 @@ p.no-margin-bottom,
 	font-weight: 400;
 	align-self: center;
 }
-.woocommerce ul.products li.product .button:hover {
+.woocommerce ul.products li.product .button:hover,
+.hsl-loop-header .hsl-loop-header___content .term-description a:hover {
 	background-color: #fff;
 	color: var(--e-global-color-secondary);
 }
@@ -140,6 +146,46 @@ p.no-margin-bottom,
 }
 .hsl-prod-attrs .hsl-attr.frozen {
 	background-image: url('assets/img/frozen.svg');
+}
+
+.hsl-loop-header {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-rows: 1fr;
+	grid-column-gap: 0px;
+	grid-row-gap: 0px;
+	background-color: #b7dff6;
+}
+.hsl-loop-header > div {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+.hsl-loop-header .hsl-loop-header___content {
+	grid-area: 1 / 1 / 2 / 2;
+	padding: 50px 95px 50px 160px;
+}
+.hsl-loop-header .hsl-loop-header___content .term-description p {
+	font-size: 22px;
+	line-height: 1.3em;
+	margin-bottom: 0.8em;
+}
+.hsl-loop-header .hsl-loop-header___content .term-description p:last-of-type {
+	margin-bottom: 0;
+}
+.hsl-loop-header .hsl-loop-header___content .term-description a {
+	text-decoration: none;
+	display: inline-block;
+}
+.hsl-loop-header .hsl-loop-header___content h1 {
+	margin: 0 0 23px;
+}
+.hsl-loop-header .hsl-loop-header_image {
+	grid-area: 1 / 2 / 2 / 3;
+}
+.hsl-loop-header .hsl-loop-header_image img {
+	aspect-ratio: 16/9;
+	object-fit: cover;
 }
 
 /* Responsive */
