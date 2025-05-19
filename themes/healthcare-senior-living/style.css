@@ -186,8 +186,45 @@ p.no-margin-bottom,
 .hsl-loop-header .hsl-loop-header_image img {
 	aspect-ratio: 16/9;
 	object-fit: cover;
+	min-height: 480px;
 }
 
+/* Shell Eggs Subcategories Loop */
+.tax-product_cat.term-regular-shell-eggs .hsl-loop-header,
+.tax-product_cat.term-omega-3-shell-eggs .hsl-loop-header,
+.tax-product_cat.term-free-run-shell-eggs .hsl-loop-header,
+.tax-product_cat.term-organic-shell-eggs .hsl-loop-header {
+	background-color: #fff;
+}
+.tax-product_cat.term-regular-shell-eggs
+	.hsl-loop-header
+	.hsl-loop-header_image,
+.tax-product_cat.term-omega-3-shell-eggs
+	.hsl-loop-header
+	.hsl-loop-header_image,
+.tax-product_cat.tax-product_cat.term-free-run-shell-eggs
+	.hsl-loop-header
+	.hsl-loop-header_image,
+.tax-product_cat.term-organic-shell-eggs
+	.hsl-loop-header
+	.hsl-loop-header_image {
+	grid-column: 1;
+}
+.tax-product_cat.term-regular-shell-eggs
+	.hsl-loop-header
+	.hsl-loop-header___content,
+.tax-product_cat.term-omega-3-shell-eggs
+	.hsl-loop-header
+	.hsl-loop-header___content,
+.tax-product_cat.tax-product_cat.term-free-run-shell-eggs
+	.hsl-loop-header
+	.hsl-loop-header___content,
+.tax-product_cat.tax-product_cat.term-organic-shell-eggs
+	.hsl-loop-header
+	.hsl-loop-header___content {
+	grid-column: 2;
+	padding: 50px 290px 50px 30px;
+}
 /* Responsive */
 @media screen and (min-width: 1361px) {
 	#header-menu .eael-simple-menu-container {
@@ -264,6 +301,10 @@ p.no-margin-bottom,
 	.woocommerce-no-products-found,
 	.hsl-loop-container {
 		margin: 0 20px;
+	}
+
+	.hsl-loop-header .hsl-loop-header_image img {
+		min-height: 335px;
 	}
 }
 @media screen and (max-width: 767px) {
