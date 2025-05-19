@@ -61,7 +61,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 			}
 			?>
 		</div>
-			<?php
+		<?php
+		$curr_cat = get_queried_object(); 
+    $curr_cat_parent = $curr_cat->parent;
+		if ( $curr_cat_parent == 19) {
+			echo do_shortcode( '[INSERT_ELEMENTOR id="2133"]' );
+		} else {
+			echo do_shortcode( '[INSERT_ELEMENTOR id="2051"]' );
+		}
+
+		if( is_product_category(20) || $this_category->category_parent == 20 ) {
+			echo do_shortcode( '[INSERT_ELEMENTOR id="2068"]' );
+		}
 	}
 
 	?>

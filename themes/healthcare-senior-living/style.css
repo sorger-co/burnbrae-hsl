@@ -52,7 +52,7 @@ p.no-margin-bottom,
 	margin-top: 1em;
 }
 .hsl-loop-container {
-	padding: 30px;
+	padding: 50px 30px 30px;
 }
 .hsl-loop-content-container {
 	background-color: var(--e-global-color-e2dadd4);

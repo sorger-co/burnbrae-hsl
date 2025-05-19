@@ -61,7 +61,22 @@ add_action( 'woocommerce_before_shop_loop', 'hsl_open_loop_container', 9 );
 function hsl_close_loop_container() {
     echo '</div>';
 }
-add_action( 'woocommerce_after_main_content', 'hsl_close_loop_container', 9 );
+add_action( 'woocommerce_after_main_content', 'hsl_close_loop_container', 1);
+
+/**
+ * Add loop after header container
+ */
+function hsl_after_loop_container() {
+    $current_category = get_queried_object(); 
+    $current_category_parent = $current_category->parent;
+    if( is_product_category(19) || $current_category_parent == 19 ) {
+		echo do_shortcode( '[INSERT_ELEMENTOR id="2100"]' );
+    } else  {
+        echo do_shortcode( '[INSERT_ELEMENTOR id="2083"]' );
+    }
+
+}
+add_action( 'woocommerce_after_main_content', 'hsl_after_loop_container', 2);
 
 /**
  * Add loop content container
