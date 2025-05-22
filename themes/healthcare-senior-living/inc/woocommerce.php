@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Change number of products that are displayed per page
  */ 
@@ -48,13 +49,19 @@ add_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_template_loo
  * Link title in loop
  */
 add_action( 'woocommerce_shop_loop_item_title', 'woocommerce_template_loop_product_link_open', 9 );
-add_action( 'woocommerce_shop_loop_item_title', 'woocommerce_template_loop_product_link_close', 11 );
+add_action( 'woocommerce_shop_loop_item_title', 'woocommerce_template_loop_product_link_close', 12 );
 
 /**
  * Add loop container
  */
 function hsl_open_loop_container() {
-    echo '<div class="hsl-loop-container">';
+    $current_category = get_queried_object(); 
+    $current_category_parent = $current_category->parent;
+    $prod_loop_class = 'hsl-loop-container';
+    if( is_product_category(19) || $current_category_parent == 19 ){
+        $prod_loop_class .=' shell-eggs';
+    }
+    echo '<div class="'.$prod_loop_class.'">';
 }
 add_action( 'woocommerce_before_shop_loop', 'hsl_open_loop_container', 9 );
 
@@ -126,6 +133,21 @@ function display_custom_product_attributes_on_loop() {
         }, explode(', ', $value)); // Assuming attributes are comma-separated
 
         echo '<div class="hsl-prod-attrs">'. implode(' ', $attributes) . '</div>';
+    }
+}
+add_action('woocommerce_shop_loop_item_title', 'display_egg_size_attributes_on_loop', 11 );
+function display_egg_size_attributes_on_loop() {
+    global $product;
+
+    $value = $product->get_attribute('Egg Size');
+
+    if ( ! empty($value) ) {
+        $attributes = array_map(function($attr) {
+            // Convert attribute names to lowercase and replace spaces with dashes
+            return '<div class="hsl-egg-size-attr ' . esc_attr( strtolower( str_replace(' ', '-', $attr) ) ) . '">'.$attr.'</div>';
+        }, explode(', ', $value)); // Assuming attributes are comma-separated
+
+        echo '<div class="hsl-egg-sizes">'. implode(' ', $attributes) . '</div>';
     }
 }
 
