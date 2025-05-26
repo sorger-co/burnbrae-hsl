@@ -12,6 +12,7 @@ function hsl_enqueue_scripts() {
 add_action( 'wp_enqueue_scripts', 'hsl_enqueue_scripts', 20 );
 
 include(get_stylesheet_directory() . '/inc/woocommerce.php');
+include(get_stylesheet_directory() . '/inc/recipes.php');
 
 /* Current Year Shortcode */
 function current_year_shortcode() {
