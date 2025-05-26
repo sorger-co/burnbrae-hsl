@@ -404,6 +404,10 @@ p.no-margin-bottom,
 .single-recipe .recipe-nutrients .recipe-nutrient-row .recipe-nutrient-item {
 	display: table-cell;
 }
+.single-recipe .recipe-ingredients .recipe-ingredient-title,
+.single-recipe .recipe-ingredients .recipe-ingredient-value {
+	padding-bottom: 0.5em;
+}
 .single-recipe .recipe-ingredients .recipe-ingredient-title {
 	padding-right: 75px;
 	text-wrap: nowrap;
