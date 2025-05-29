@@ -463,13 +463,16 @@ p.no-margin-bottom,
 .single-recipe .recipe-featured-products .products-list {
 	display: flex;
 	flex-direction: row;
+	justify-content: center;
 	gap: 40px;
 	list-style-type: none;
 	margin: 0;
-	padding: 0 15%;
+	padding: 0;
 }
 .single-recipe .recipe-featured-products .products-list li.product {
 	flex: 1;
+	width: 100%;
+	max-width: 360px;
 }
 .single-recipe .recipe-featured-products .products-list a {
 	text-decoration: none;
@@ -718,6 +721,8 @@ p.no-margin-bottom,
 	.single-recipe .container {
 		font-size: 15px;
 		line-height: 18px;
+		width: auto;
+		max-width: unset;
 	}
 	.single-recipe .recipe-ingredients .recipe-ingredients-list,
 	.single-recipe .recipe-nutrients .recipe-nutrients-list,
@@ -726,6 +731,11 @@ p.no-margin-bottom,
 		display: flex;
 		flex-direction: column;
 	}
+	.single-recipe .recipe-nutrients .recipe-nutrients-list {
+		background-color: transparent;
+		font-size: 18px;
+		line-height: 21px;
+	}
 	.single-recipe
 		.recipe-ingredients
 		.recipe-ingredient-item:not(:last-of-type) {
@@ -733,11 +743,43 @@ p.no-margin-bottom,
 		margin-bottom: 1em;
 		border-bottom: 1px solid var(--e-global-color-c80fc3f);
 	}
+	.single-recipe .recipe-ingredients .recipe-ingredient-title,
+	.single-recipe .recipe-ingredients .recipe-ingredient-value {
+		padding-bottom: 0;
+	}
 	.single-recipe .recipe-ingredients .recipe-ingredient-title {
 		display: block;
 		padding-right: 0;
 		text-wrap: wrap;
 		width: 100%;
+	}
+	.single-recipe .recipe-nutrients .container {
+		padding: 0;
+	}
+	.single-recipe .recipe-nutrients h2 {
+		font-size: 22px;
+		line-height: 30px;
+		margin-bottom: 0;
+		text-align: center;
+		padding: 30px 34px;
+	}
+	.single-recipe .recipe-nutrients .recipe-nutrients-list,
+	.single-recipe .recipe-nutrients .recipe-nutrients-list .recipe-nutrient-item,
+	.single-recipe .recipe-nutrients .recipe-nutrient-label {
+		border: none;
+	}
+	.single-recipe
+		.recipe-nutrients
+		.recipe-nutrients-list
+		.recipe-nutrient-item
+		> div {
+		padding: 6px 0;
+	}
+	.single-recipe .recipe-featured-products .products-list {
+		padding: 0;
+	}
+	.single-recipe .recipe-featured-products .products-list li.product {
+		max-width: 100%;
 	}
 }
 @media screen and (max-width: 767px) {
@@ -752,5 +794,17 @@ p.no-margin-bottom,
 		display: flex;
 		flex-direction: column-reverse;
 		text-align: center;
+	}
+	.single-recipe .recipe-featured-products .container {
+		padding: 24px 0;
+	}
+	.single-recipe .recipe-featured-products .products-list {
+		gap: 20px;
+		flex-direction: column;
+	}
+	.hsl-loop-img-container,
+	.hsl-loop-content-container {
+		padding-left: 90px;
+		padding-right: 90px;
 	}
 }
