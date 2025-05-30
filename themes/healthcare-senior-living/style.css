@@ -488,6 +488,92 @@ p.no-margin-bottom,
 	margin-top: 1em;
 }
 
+/* Recipes Archive */
+.post-type-archive-recipe .container {
+	padding: 20px 80px;
+}
+.archive .archive-title {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	border-bottom: 1px solid #0a3f82;
+	padding: 0 0 24px;
+}
+.archive .archive-title .entry-title {
+	font-size: 36px;
+	line-height: 1.2em;
+	margin: 0;
+}
+.archive .archive-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 50px;
+}
+.archive .archive-grid-item {
+	margin-top: 30px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+.archive .archive-grid-item a {
+	text-decoration: none;
+}
+.archive .archive-grid-item .wp-post-image {
+	width: 100%;
+	height: auto;
+	max-width: 100%;
+	object-fit: cover;
+	aspect-ratio: 4/3;
+}
+.archive .archive-grid-item .item-details {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 20px;
+	padding: 20px 0;
+}
+.archive .archive-grid-item .entry-title {
+	font-size: 24px;
+	line-height: 1.2em;
+	margin: 0;
+}
+.archive .archive-grid-item .item-details .archive-view-btn {
+	text-wrap: nowrap;
+	padding-top: 4.4px;
+	padding-bottom: 4.4px;
+}
+.healthcare-formulated {
+	background-image: url('assets/img/healthcare-formulated.svg');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+}
+.healthcare-formulated-legend {
+	font-size: 19px;
+	line-height: 1.6em;
+	margin-top: 10px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+.archive .archive-grid-item .item-thumbnail-link {
+	position: relative;
+}
+.archive .archive-grid-item .healthcare-formulated {
+	width: 54px;
+	height: 75px;
+	position: absolute;
+	right: 27px;
+	top: 26px;
+}
+.healthcare-formulated-legend .healthcare-formulated {
+	width: 35px;
+	height: 48px;
+	margin-right: 0.6em;
+	display: inline-block;
+}
+
 /* Responsive */
 @media screen and (min-width: 1361px) {
 	#header-menu .eael-simple-menu-container {
@@ -781,7 +867,12 @@ p.no-margin-bottom,
 	.single-recipe .recipe-featured-products .products-list li.product {
 		max-width: 100%;
 	}
+
+	.archive .archive-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
 }
+
 @media screen and (max-width: 767px) {
 	.img-side-box-resp {
 		aspect-ratio: 4/3;
@@ -806,5 +897,9 @@ p.no-margin-bottom,
 	.hsl-loop-content-container {
 		padding-left: 90px;
 		padding-right: 90px;
+	}
+
+	.archive .archive-grid {
+		grid-template-columns: 1fr;
 	}
 }

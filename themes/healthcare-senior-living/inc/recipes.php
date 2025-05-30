@@ -45,10 +45,10 @@ if ( ! function_exists('recipe_post_type') ) {
 		);
 		$args = array(
 			'label'                 => __( 'Recipe', 'bbf_hsl' ),
-			'description'           => __( 'HSL Recipes', 'bbf_hsl' ),
+			'description'           => __( '', 'bbf_hsl' ),
 			'labels'                => $labels,
 			'supports'              => array( 'title', 'editor', 'thumbnail' ),
-			'taxonomies'            => array( 'category', 'post_tag' ),
+			// 'taxonomies'            => array( 'category', 'post_tag' ),
 			'hierarchical'          => false,
 			'public'                => true,
 			'show_ui'               => true,
@@ -384,3 +384,265 @@ function recipe_featured_products_save_postdata( $post_id ) {
         delete_post_meta($post_id, 'recipe_featured_products');
     }
 }
+
+// Register custom taxonomies for recipes
+add_action( 'init', 'register_recipe_taxonomies', 1 );
+function register_recipe_taxonomies() {
+    // Meal Type taxonomy
+    $labels_meal = array(
+        'name'              => _x( 'Meal Types', 'taxonomy general name', 'bbf_hsl' ),
+        'singular_name'     => _x( 'Meal Type', 'taxonomy singular name', 'bbf_hsl' ),
+        'search_items'      => __( 'Search Meal Types', 'bbf_hsl' ),
+        'all_items'         => __( 'All Meal Types', 'bbf_hsl' ),
+        'parent_item'       => __( 'Parent Meal Type', 'bbf_hsl' ),
+        'parent_item_colon' => __( 'Parent Meal Type:', 'bbf_hsl' ),
+        'edit_item'         => __( 'Edit Meal Type', 'bbf_hsl' ),
+        'update_item'       => __( 'Update Meal Type', 'bbf_hsl' ),
+        'add_new_item'      => __( 'Add New Meal Type', 'bbf_hsl' ),
+        'new_item_name'     => __( 'New Meal Type Name', 'bbf_hsl' ),
+        'menu_name'         => __( 'Meal Type', 'bbf_hsl' ),
+        'view_item'         => __( 'View Meal Type', 'bbf_hsl' ),
+        'popular_items'     => __( 'Popular Meal Types', 'bbf_hsl' ),
+        'separate_items_with_commas' => __( 'Separate meal types with commas', 'bbf_hsl' ),
+        'add_or_remove_items' => __( 'Add or remove meal types', 'bbf_hsl' ),
+        'choose_from_most_used' => __( 'Choose from the most used meal types', 'bbf_hsl' ),
+        'not_found'         => __( 'No meal types found', 'bbf_hsl' ),
+        'back_to_items'     => __( '← Back to Meal Types', 'bbf_hsl' ),
+    );
+    register_taxonomy( 'meal_type', array( 'recipe' ), array(
+        'hierarchical'      => true,
+        'labels'            => $labels_meal,
+        'show_ui'           => true,
+        'show_admin_column' => true,
+        'query_var'         => true,
+        'rewrite'           => array( 'slug' => 'meal-type', 'with_front' => false ),
+    ) );
+
+    // Product Family taxonomy
+    $labels_family = array(
+        'name'              => _x( 'Product Families', 'taxonomy general name', 'bbf_hsl' ),
+        'singular_name'     => _x( 'Product Family', 'taxonomy singular name', 'bbf_hsl' ),
+        'search_items'      => __( 'Search Product Families', 'bbf_hsl' ),
+        'all_items'         => __( 'All Product Families', 'bbf_hsl' ),
+        'parent_item'       => __( 'Parent Product Family', 'bbf_hsl' ),
+        'parent_item_colon' => __( 'Parent Product Family:', 'bbf_hsl' ),
+        'edit_item'         => __( 'Edit Product Family', 'bbf_hsl' ),
+        'update_item'       => __( 'Update Product Family', 'bbf_hsl' ),
+        'add_new_item'      => __( 'Add New Product Family', 'bbf_hsl' ),
+        'new_item_name'     => __( 'New Product Family Name', 'bbf_hsl' ),
+        'menu_name'         => __( 'Product Family', 'bbf_hsl' ),
+        'view_item'         => __( 'View Product Family', 'bbf_hsl' ),
+        'popular_items'     => __( 'Popular Product Families', 'bbf_hsl' ),
+        'separate_items_with_commas' => __( 'Separate product families with commas', 'bbf_hsl' ),
+        'add_or_remove_items' => __( 'Add or remove product families', 'bbf_hsl' ),
+        'choose_from_most_used' => __( 'Choose from the most used product families', 'bbf_hsl' ),
+        'not_found'         => __( 'No product families found', 'bbf_hsl' ),
+        'back_to_items'     => __( '← Back to Product Families', 'bbf_hsl' ),
+    );
+    register_taxonomy( 'product_family', array( 'recipe' ), array(
+        'hierarchical'      => true,
+        'labels'            => $labels_family,
+        'show_ui'           => true,
+        'show_admin_column' => true,
+        'query_var'         => true,
+        'rewrite'           => array( 'slug' => 'product-family', 'with_front' => false ),
+    ) );
+
+    // Attributes taxonomy
+    $labels_attr = array(
+        'name'              => _x( 'Attributes', 'taxonomy general name', 'bbf_hsl' ),
+        'singular_name'     => _x( 'Attribute', 'taxonomy singular name', 'bbf_hsl' ),
+        'search_items'      => __( 'Search Attributes', 'bbf_hsl' ),
+        'all_items'         => __( 'All Attributes', 'bbf_hsl' ),
+        'parent_item'       => __( 'Parent Attribute', 'bbf_hsl' ),
+        'parent_item_colon' => __( 'Parent Attribute:', 'bbf_hsl' ),
+        'edit_item'         => __( 'Edit Attribute', 'bbf_hsl' ),
+        'update_item'       => __( 'Update Attribute', 'bbf_hsl' ),
+        'add_new_item'      => __( 'Add New Attribute', 'bbf_hsl' ),
+        'new_item_name'     => __( 'New Attribute Name', 'bbf_hsl' ),
+        'menu_name'         => __( 'Attributes', 'bbf_hsl' ),
+        'view_item'         => __( 'View Attribute', 'bbf_hsl' ),
+        'popular_items'     => __( 'Popular Attributes', 'bbf_hsl' ),
+        'separate_items_with_commas' => __( 'Separate attributes with commas', 'bbf_hsl' ),
+        'add_or_remove_items' => __( 'Add or remove attributes', 'bbf_hsl' ),
+        'choose_from_most_used' => __( 'Choose from the most used attributes', 'bbf_hsl' ),
+        'not_found'         => __( 'No attributes found', 'bbf_hsl' ),
+        'back_to_items'     => __( '← Back to Attributes', 'bbf_hsl' ),
+    );
+    register_taxonomy( 'recipe_attribute', array( 'recipe' ), array(
+        'hierarchical'      => false,
+        'labels'            => $labels_attr,
+        'show_ui'           => true,
+        'show_admin_column' => true,
+        'query_var'         => true,
+        'rewrite'           => array( 'slug' => 'recipe-attribute', 'with_front' => false ),
+    ) );
+}
+
+// Flush rewrite rules on theme activation
+add_action('after_switch_theme', function() {
+    // Register post type and taxonomies before flushing
+    recipe_post_type();
+    register_recipe_taxonomies();
+    flush_rewrite_rules();
+});
+
+// Add image field to recipe taxonomies (Meal Type, Product Family, Attributes)
+add_action( 'meal_type_add_form_fields', 'recipe_taxonomy_add_image_field', 10, 2 );
+add_action( 'meal_type_edit_form_fields', 'recipe_taxonomy_edit_image_field', 10, 2 );
+add_action( 'product_family_add_form_fields', 'recipe_taxonomy_add_image_field', 10, 2 );
+add_action( 'product_family_edit_form_fields', 'recipe_taxonomy_edit_image_field', 10, 2 );
+add_action( 'recipe_attribute_add_form_fields', 'recipe_taxonomy_add_image_field', 10, 2 );
+add_action( 'recipe_attribute_edit_form_fields', 'recipe_taxonomy_edit_image_field', 10, 2 );
+
+function recipe_taxonomy_add_image_field($taxonomy) {
+    ?>
+    <div class="form-field term-group">
+        <label for="taxonomy-image-id"><?php _e('Image', 'bbf_hsl'); ?></label>
+        <input type="hidden" id="taxonomy-image-id" name="taxonomy-image-id" value="" />
+        <div id="taxonomy-image-wrapper"></div>
+        <button type="button" class="button button-secondary taxonomy-add-image"><?php _e('Add Image', 'bbf_hsl'); ?></button>
+        <button type="button" class="button button-secondary taxonomy-remove-image" style="display:none;"><?php _e('Remove Image', 'bbf_hsl'); ?></button>
+    </div>
+    <script>
+    jQuery(document).ready(function($){
+        var frame;
+        $('.taxonomy-add-image').on('click', function(e){
+            e.preventDefault();
+            if(frame){ frame.open(); return; }
+            frame = wp.media({
+                title: '<?php _e('Select or Upload Image', 'bbf_hsl'); ?>',
+                button: { text: '<?php _e('Use this image', 'bbf_hsl'); ?>' },
+                multiple: false
+            });
+            frame.on('select', function(){
+                var attachment = frame.state().get('selection').first().toJSON();
+                $('#taxonomy-image-id').val(attachment.id);
+                $('#taxonomy-image-wrapper').html('<img src="'+attachment.sizes.thumbnail.url+'" style="max-width:100px;" />');
+                $('.taxonomy-remove-image').show();
+            });
+            frame.open();
+        });
+        $('.taxonomy-remove-image').on('click', function(){
+            $('#taxonomy-image-id').val('');
+            $('#taxonomy-image-wrapper').html('');
+            $(this).hide();
+        });
+    });
+    </script>
+    <?php
+}
+
+function recipe_taxonomy_edit_image_field($term, $taxonomy) {
+    $image_id = get_term_meta($term->term_id, 'taxonomy-image-id', true);
+    $image_url = $image_id ? wp_get_attachment_thumb_url($image_id) : '';
+    ?>
+    <tr class="form-field term-group-wrap">
+        <th scope="row"><label for="taxonomy-image-id"><?php _e('Image', 'bbf_hsl'); ?></label></th>
+        <td>
+            <input type="hidden" id="taxonomy-image-id" name="taxonomy-image-id" value="<?php echo esc_attr($image_id); ?>" />
+            <div id="taxonomy-image-wrapper">
+                <?php if($image_url) echo '<img src="'.esc_url($image_url).'" style="max-width:100px;" />'; ?>
+            </div>
+            <button type="button" class="button button-secondary taxonomy-add-image"><?php _e('Add Image', 'bbf_hsl'); ?></button>
+            <button type="button" class="button button-secondary taxonomy-remove-image" <?php if(!$image_id) echo 'style="display:none;"'; ?>><?php _e('Remove Image', 'bbf_hsl'); ?></button>
+        </td>
+    </tr>
+    <script>
+    jQuery(document).ready(function($){
+        var frame;
+        $('.taxonomy-add-image').on('click', function(e){
+            e.preventDefault();
+            if(frame){ frame.open(); return; }
+            frame = wp.media({
+                title: '<?php _e('Select or Upload Image', 'bbf_hsl'); ?>',
+                button: { text: '<?php _e('Use this image', 'bbf_hsl'); ?>' },
+                multiple: false
+            });
+            frame.on('select', function(){
+                var attachment = frame.state().get('selection').first().toJSON();
+                $('#taxonomy-image-id').val(attachment.id);
+                $('#taxonomy-image-wrapper').html('<img src="'+attachment.sizes.thumbnail.url+'" style="max-width:100px;" />');
+                $('.taxonomy-remove-image').show();
+            });
+            frame.open();
+        });
+        $('.taxonomy-remove-image').on('click', function(){
+            $('#taxonomy-image-id').val('');
+            $('#taxonomy-image-wrapper').html('');
+            $(this).hide();
+        });
+    });
+    </script>
+    <?php
+}
+
+add_action('created_meal_type', 'recipe_taxonomy_save_image', 10, 2);
+add_action('edited_meal_type', 'recipe_taxonomy_save_image', 10, 2);
+add_action('created_product_family', 'recipe_taxonomy_save_image', 10, 2);
+add_action('edited_product_family', 'recipe_taxonomy_save_image', 10, 2);
+add_action('created_recipe_attribute', 'recipe_taxonomy_save_image', 10, 2);
+add_action('edited_recipe_attribute', 'recipe_taxonomy_save_image', 10, 2);
+
+function recipe_taxonomy_save_image($term_id, $tt_id) {
+    if (isset($_POST['taxonomy-image-id'])) {
+        update_term_meta($term_id, 'taxonomy-image-id', intval($_POST['taxonomy-image-id']));
+    }
+}
+
+// Enqueue media uploader for taxonomy image fields
+add_action('admin_enqueue_scripts', function($hook) {
+    // Only load on taxonomy add/edit screens
+    if (
+        isset($_GET['taxonomy']) && in_array($_GET['taxonomy'], ['meal_type','product_family','recipe_attribute'])
+    ) {
+        wp_enqueue_media();
+    }
+});
+
+// Add edit taxonomy links to the admin bar on the front-end
+add_action('admin_bar_menu', function($wp_admin_bar) {
+    if (!is_admin() && is_user_logged_in() && current_user_can('manage_categories')) {
+        global $wp_query;
+        $parent = 'site-name'; // Attach to the site name menu for visibility
+        // Meal Type
+        if (is_tax('meal_type')) {
+            $term = $wp_query->get_queried_object();
+            if ($term && isset($term->term_id)) {
+                $edit_link = get_edit_term_link($term->term_id, 'meal_type');
+                $wp_admin_bar->add_node([
+                    'id'    => 'edit-meal-type',
+                    'title' => __('Edit Meal Type', 'bbf_hsl'),
+                    'href'  => $edit_link,
+                    'parent'=> $parent,
+                ]);
+            }
+        }
+        // Product Family
+        if (is_tax('product_family')) {
+            $term = $wp_query->get_queried_object();
+            if ($term && isset($term->term_id)) {
+                $edit_link = get_edit_term_link($term->term_id, 'product_family');
+                $wp_admin_bar->add_node([
+                    'id'    => 'edit-product-family',
+                    'title' => __('Edit Product Family', 'bbf_hsl'),
+                    'href'  => $edit_link,
+                    'parent'=> $parent,
+                ]);
+            }
+        }
+        // Recipe Attribute
+        if (is_tax('recipe_attribute')) {
+            $term = $wp_query->get_queried_object();
+            if ($term && isset($term->term_id)) {
+                $edit_link = get_edit_term_link($term->term_id, 'recipe_attribute');
+                $wp_admin_bar->add_node([
+                    'id'    => 'edit-recipe-attribute',
+                    'title' => __('Edit Attribute', 'bbf_hsl'),
+                    'href'  => $edit_link,
+                    'parent'=> $parent,
+                ]);
+            }
+        }
+    }
+}, 100);

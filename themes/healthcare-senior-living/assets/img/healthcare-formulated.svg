@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="67.674" height="93.392" viewBox="0 0 67.674 93.392">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_5" data-name="Rectangle 5" width="67.674" height="93.392" fill="#b7dff6"/>
+    </clipPath>
+  </defs>
+  <g id="Group_743" data-name="Group 743" transform="translate(-96.606 -2780.805)">
+    <g id="Group_8" data-name="Group 8" transform="translate(96.606 2780.805)" clip-path="url(#clip-path)">
+      <path id="Path_3" data-name="Path 3" d="M0,51.95C0,30.586,12.1,0,33.83,0s33.83,30.586,33.83,51.95C68.019,72.4,61.5,93.392,33.83,93.392S0,72.564,0,51.95" transform="translate(0)" fill="#b7dff6"/>
+    </g>
+    <path id="Icon_material-health-and-safety" data-name="Icon material-health-and-safety" d="M22.61,31.11H16.222V23.443H22.61V17.055h7.666v6.389h6.389V31.11H30.276V37.5H22.61ZM26.443,3,6,10.666V26.229c0,12.9,8.714,24.941,20.443,27.88,11.729-2.939,20.443-14.975,20.443-27.88V10.666Z" transform="translate(104 2802.427)" fill="#003972"/>
+  </g>
+</svg>
