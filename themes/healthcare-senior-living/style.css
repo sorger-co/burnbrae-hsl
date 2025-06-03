@@ -489,7 +489,7 @@ p.no-margin-bottom,
 }
 
 /* Recipes Archive */
-.post-type-archive-recipe .container {
+.archive .container {
 	padding: 20px 80px;
 }
 .archive .archive-title {
@@ -990,7 +990,7 @@ p.no-margin-bottom,
 	.archive .archive-grid-item {
 		margin-top: 25px;
 	}
-	.post-type-archive-recipe .container {
+	.archive .container {
 		padding: 20px;
 	}
 	.archive .archive-title {
