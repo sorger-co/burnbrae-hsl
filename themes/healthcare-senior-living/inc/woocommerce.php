@@ -184,6 +184,8 @@ function hsl_product_info_metabox($post) {
     $shelf_life = get_post_meta($post->ID, '_hsl_shelf_life', true);
     $ingredients = get_post_meta($post->ID, '_hsl_ingredients', true);
     $contains = get_post_meta($post->ID, '_hsl_contains', true);
+    $product_info_image_id = get_post_meta($post->ID, '_hsl_product_info_image_id', true);
+    $product_info_image_url = $product_info_image_id ? wp_get_attachment_url($product_info_image_id) : '';
     ?>
     <p><label>UPC: <input type="text" name="hsl_upc" value="<?php echo esc_attr($upc); ?>" class="widefat"></label></p>
     <p><label>SCC: <input type="text" name="hsl_scc" value="<?php echo esc_attr($scc); ?>" class="widefat"></label></p>
@@ -196,6 +198,41 @@ function hsl_product_info_metabox($post) {
     <p><label>Shelf Life/Storage: <input type="text" name="hsl_shelf_life" value="<?php echo esc_attr($shelf_life); ?>" class="widefat"></label></p>
     <p><label>Ingredients:<br><textarea name="hsl_ingredients" class="widefat" rows="3"><?php echo esc_textarea($ingredients); ?></textarea></label></p>
     <p><label>Contains:<br><textarea name="hsl_contains" class="widefat" rows="3"><?php echo esc_textarea($contains); ?></textarea></label></p>
+    <div>
+        <label><strong>Product Information Image</strong></label><br>
+        <input type="hidden" name="hsl_product_info_image_id" id="hsl_product_info_image_id" value="<?php echo esc_attr($product_info_image_id); ?>">
+        <div id="hsl_product_info_image_wrapper">
+            <?php if($product_info_image_url) echo '<img src="'.esc_url($product_info_image_url).'" style="max-width:200px;display:block;" />'; ?>
+        </div>
+        <button type="button" class="button" id="hsl_product_info_image_upload">Upload/Select Image</button>
+        <button type="button" class="button" id="hsl_product_info_image_remove" style="<?php echo $product_info_image_id ? '' : 'display:none;'; ?>">Remove Image</button>
+    </div>
+    <script>
+    jQuery(document).ready(function($){
+        var frame;
+        $('#hsl_product_info_image_upload').on('click', function(e){
+            e.preventDefault();
+            if(frame){ frame.open(); return; }
+            frame = wp.media({
+                title: '<?php _e('Select or Upload Product Information Image', 'bbf_hsl'); ?>',
+                button: { text: '<?php _e('Use this image', 'bbf_hsl'); ?>' },
+                multiple: false
+            });
+            frame.on('select', function(){
+                var attachment = frame.state().get('selection').first().toJSON();
+                $('#hsl_product_info_image_id').val(attachment.id);
+                $('#hsl_product_info_image_wrapper').html('<img src="'+attachment.url+'" style="max-width:200px;display:block;" />');
+                $('#hsl_product_info_image_remove').show();
+            });
+            frame.open();
+        });
+        $('#hsl_product_info_image_remove').on('click', function(){
+            $('#hsl_product_info_image_id').val('');
+            $('#hsl_product_info_image_wrapper').html('');
+            $(this).hide();
+        });
+    });
+    </script>
     <?php
 }
 
@@ -264,6 +301,7 @@ add_action('save_post_product', function($post_id) {
         '_hsl_ingredients' => 'hsl_ingredients',
         '_hsl_contains' => 'hsl_contains',
         '_hsl_nutrition_image_id' => 'hsl_nutrition_image_id',
+        '_hsl_product_info_image_id' => 'hsl_product_info_image_id',
         '_hsl_heating_instructions' => 'hsl_heating_instructions',
     ];
     foreach($fields as $meta_key => $field) {
@@ -275,7 +313,7 @@ add_action('save_post_product', function($post_id) {
             }
         } else if($meta_key === '_hsl_kosher') {
             update_post_meta($post_id, $meta_key, 'no');
-        } else if($meta_key === '_hsl_nutrition_image_id') {
+        } else if($meta_key === '_hsl_nutrition_image_id' || $meta_key === '_hsl_product_info_image_id') {
             update_post_meta($post_id, $meta_key, '');
         }
     }

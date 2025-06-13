@@ -81,63 +81,93 @@ $recipe_args = array(
 $recipe_query = new WP_Query($recipe_args);
 $has_product_recipes = $recipe_query->have_posts();
 ?>
-  <div class="custom-product-tabs">
+  <div class="hsl-product-tabs">
     <div class="tab-buttons">
-      <?php if ( $product_info_exists ) : ?>
-      <button type="button" class="tab-btn" data-tab="tab1">Product Information</button>
-      <?php endif; ?>
-      <?php if ( $nutrition_info_exists ) : ?>
-      <button type="button" class="tab-btn" data-tab="tab2">Nutrition Information</button>
-      <?php endif; ?>
-      <?php if ( $heating_instructions_exists ) : ?>
-      <button type="button" class="tab-btn" data-tab="tab3">Heating Instructions</button>
-      <?php endif; ?>
-      <?php if ( $has_product_recipes ) : ?>
-      <button type="button" class="tab-btn" data-tab="tab4">Recipes</button>
-      <?php endif; ?>
+      <div class="container">
+        <?php if ( $product_info_exists ) : ?>
+          <div>
+            <button type="button" class="tab-btn" data-tab="tab1"><span class="tab-title-left"><span class="tab-title-before tab-pi"></span>Product Information</span><span class="tab-title-after"></span></button>
+          </div>
+        <?php endif; ?>
+        <?php if ( $nutrition_info_exists ) : ?>
+        <div>
+          <button type="button" class="tab-btn" data-tab="tab2"><span class="tab-title-left"><span class="tab-title-before tab-ni"></span>Nutrition Information</span><span class="tab-title-after"></span></button>
+        </div>
+        <?php endif; ?>
+        <?php if ( $heating_instructions_exists ) : ?>
+          <div>
+            <button type="button" class="tab-btn" data-tab="tab3"><span class="tab-title-left"><span class="tab-title-before tab-hi"></span>Heating Instructions</span><span class="tab-title-after"></span></button>
+          </div>
+        <?php endif; ?>
+        <?php if ( $has_product_recipes ) : ?>
+          <div>
+            <button type="button" class="tab-btn tab-rr" data-tab="tab4"><span class="tab-title-left"><span class="tab-title-before tab-rr"></span>Recipes</span><span class="tab-title-after"></span></button>
+          </div>
+        <?php endif; ?>
+      </div>
     </div>
-    <div class="tab-contents">
+    <div class="tab-contents">      
       <?php if ( $product_info_exists ) : ?>
-      <div id="tab1" class="tab-content" style="display:none;">
-        <ul class="product-info-list">
-          <?php if ( $sku ) : ?>
-            <li><strong>SKU:</strong> <?php echo esc_html( $sku ); ?></li>
-          <?php endif; ?>
-          <?php if ( $upc ) : ?>
-            <li><strong>UPC:</strong> <?php echo esc_html( $upc ); ?></li>
-          <?php endif; ?>
-          <?php if ( $scc ) : ?>
-            <li><strong>SCC:</strong> <?php echo esc_html( $scc ); ?></li>
-          <?php endif; ?>
-          <?php if ( $kosher ) : ?>
-            <li><strong>Kosher:</strong> <?php echo $kosher === 'yes' ? 'Yes' : 'No'; ?></li>
-          <?php endif; ?>
-          <?php if ( $size ) : ?>
-            <li><strong>Size:</strong> <?php echo esc_html( $size ); ?></li>
-          <?php endif; ?>
-          <?php if ( $net_weight ) : ?>
-            <li><strong>Net weight:</strong> <?php echo esc_html( $net_weight ); ?></li>
-          <?php endif; ?>
-          <?php if ( $shelf_life ) : ?>
-            <li><strong>Shelf Life/Storage:</strong> <?php echo esc_html( $shelf_life ); ?></li>
-          <?php endif; ?>
-          <?php if ( $ingredients ) : ?>
-            <li><strong>Ingredients:</strong> <?php echo nl2br( esc_html( $ingredients ) ); ?></li>
-          <?php endif; ?>
-          <?php if ( $contains ) : ?>
-            <li><strong>Contains:</strong> <?php echo nl2br( esc_html( $contains ) ); ?></li>
-          <?php endif; ?>
-        </ul>
+      <div id="tab1" class="tab-content tab-pi-content" style="display:none;">     
+        <div class="container"> 
+          <div class="tab-pi-content-left">
+            <div class="tab-pi-left-1">
+              <p>  
+                <?php if ( $sku ) : ?>
+                  <strong>Product Number:</strong> <?php echo esc_html( $sku ); ?><br />
+                <?php endif; ?>
+                <?php if ( $upc ) : ?>
+                  <strong>UPC:</strong> <?php echo esc_html( $upc ); ?><br />
+                <?php endif; ?>
+                <?php if ( $scc ) : ?>
+                  <strong>SCC:</strong> <?php echo esc_html( $scc ); ?><br />
+                <?php endif; ?>
+              </p>
+              <p>
+                <?php if ( $kosher ) : ?>
+                  <strong>Kosher:</strong> <?php echo $kosher === 'yes' ? 'Yes' : 'No'; ?><br />
+                <?php endif; ?>
+                <?php if ( $size ) : ?>
+                  <strong>Size:</strong> <?php echo esc_html( $size ); ?><br />
+                <?php endif; ?>
+                <?php if ( $net_weight ) : ?>
+                  <strong>Net weight:</strong> <?php echo esc_html( $net_weight ); ?><br />
+                <?php endif; ?>
+                <?php if ( $shelf_life ) : ?>
+                  <strong>Shelf Life/Storage:</strong> <?php echo esc_html( $shelf_life ); ?><br />
+                <?php endif; ?>
+              </p>
+            </div>
+            <div class="tab-pi-left-2">
+              <?php if ( $ingredients ) : ?>
+                <p><strong>Ingredients:</strong> <br /><?php echo nl2br( esc_html( $ingredients ) ); ?></p>
+              <?php endif; ?>
+              <?php if ( $contains ) : ?>
+                <p><strong>Contains:</strong> <?php echo nl2br( esc_html( $contains ) ); ?></p>
+              <?php endif; ?>
+            </div>
+          </div>
+          <div class="tab-pi-content-right">
+            <?php 
+              $product_info_image_id = get_post_meta( get_the_ID(), '_hsl_product_info_image_id', true );
+              if ( $product_info_image_id ) {
+                echo wp_get_attachment_image( $product_info_image_id, 'large', false, [ 'class' => 'product-info-image' ] );
+              }
+            ?>
+          </div>
+        </div>
       </div>
       <?php endif; ?>
       <?php if ( $nutrition_info_exists ) : ?>
-      <div id="tab2" class="tab-content" style="display:none;">
-        <?php echo wp_get_attachment_image( $nutrition_image_id, 'large', false, [ 'class' => 'nutrition-info-image' ] ); ?>
+      <div id="tab2" class="tab-content tab-ni-content" style="display:none;">
+        <div class="container">
+          <?php echo wp_get_attachment_image( $nutrition_image_id, 'large', false, [ 'class' => 'nutrition-info-image' ] ); ?>
+        </div>
       </div>
       <?php endif; ?>
       <?php if ( $heating_instructions_exists ) : ?>
-      <div id="tab3" class="tab-content" style="display:none;">
-        <?php echo apply_filters( 'the_content', $heating_instructions ); ?>
+      <div id="tab3" class="tab-content tab-hi-content" style="display:none;">
+        <div class="container"><?php echo apply_filters( 'the_content', $heating_instructions ); ?></div>
       </div>
       <?php endif; ?>
       <?php if ( $has_product_recipes ) : ?>
@@ -157,6 +187,7 @@ $has_product_recipes = $recipe_query->have_posts();
         );
         $recipe_query = new WP_Query($recipe_args);
         if ( $recipe_query->have_posts() ) : ?>
+        <div class="container">
           <div class="product-recipes-list">
             <?php while ( $recipe_query->have_posts() ) : $recipe_query->the_post(); ?>
               <div class="product-recipe-item">
@@ -172,15 +203,16 @@ $has_product_recipes = $recipe_query->have_posts();
           </div>
         <?php else : ?>
           <p>No recipes found featuring this product.</p>
+        </div>
         <?php endif; ?>
       </div>
-      <?php endif; ?>
+      <?php endif; ?>        
     </div>
   </div>
   <script>
     (function(){
-      const tabBtns = document.querySelectorAll('.custom-product-tabs .tab-btn');
-      const tabContents = document.querySelectorAll('.custom-product-tabs .tab-content');
+      const tabBtns = document.querySelectorAll('.hsl-product-tabs .tab-btn');
+      const tabContents = document.querySelectorAll('.hsl-product-tabs .tab-content');
       const productHero = document.getElementById('product-hero');
       let openTab = null;
 
