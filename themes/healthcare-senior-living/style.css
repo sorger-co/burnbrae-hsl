@@ -893,11 +893,6 @@ p.no-margin-bottom,
 .related-products-slider {
 	overflow: hidden;
 	position: relative;
-	display: grid !important;
-	grid-template-columns: repeat(4, 1fr);
-	grid-template-rows: ;
-	grid-column-gap: 50px;
-	grid-row-gap: 50px;
 }
 .related-products-slider .product {
 	list-style: none;
