@@ -171,7 +171,7 @@ $has_product_recipes = $recipe_query->have_posts();
       </div>
       <?php endif; ?>
       <?php if ( $has_product_recipes ) : ?>
-      <div id="tab4" class="tab-content" style="display:none;">
+      <div id="tab4" class="tab-content tab-rr-content" style="display:none;">
         <?php
         // Query recipes where this product is in the Featured Products metabox
         $recipe_args = array(
@@ -188,19 +188,23 @@ $has_product_recipes = $recipe_query->have_posts();
         $recipe_query = new WP_Query($recipe_args);
         if ( $recipe_query->have_posts() ) : ?>
         <div class="container">
-          <div class="product-recipes-list">
+          <div class="archive-grid">
             <?php while ( $recipe_query->have_posts() ) : $recipe_query->the_post(); ?>
-              <div class="product-recipe-item">
+              <div class="archive-grid-item">
                 <?php if ( has_post_thumbnail() ) : ?>
-                  <div class="product-recipe-thumb">
-                    <a href="<?php the_permalink(); ?>"><?php the_post_thumbnail('medium'); ?></a>
+                  <div class="item-thumbnail-link">
+                    <a href="<?php the_permalink(); ?>"><?php the_post_thumbnail('full'); ?></a>
+                    <div class="healthcare-formulated" ?=""></div>
                   </div>
                 <?php endif; ?>
-                <h4 class="product-recipe-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
-                <a class="button view-recipe-btn" href="<?php the_permalink(); ?>">View Recipe</a>
+                <div class="item-details">
+                  <h4 class="entry-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+                  <a class="elementor-button elementor-button-link elementor-size-sm archive-view-btn" href="<?php the_permalink(); ?> ">View Recipe</a>
+                </div>
               </div>
             <?php endwhile; wp_reset_postdata(); ?>
           </div>
+          <div class="healthcare-formulated-legend"><span class="healthcare-formulated"></span> Healthcare formulated</div>
         <?php else : ?>
           <p>No recipes found featuring this product.</p>
         </div>
@@ -253,13 +257,13 @@ $has_product_recipes = $recipe_query->have_posts();
         <div class="related-products-slider">
           <?php while ($related_query->have_posts()) : $related_query->the_post(); global $product; ?>
             <div class="related-product-slide">
-              <?php wc_get_template_part('content', 'product'); ?>
+              <?php wc_get_template_part('content', 'product-slider'); ?>
             </div>
           <?php endwhile; ?>
         </div>
         <div class="slider-nav">
-          <button class="slider-arrow slider-arrow-left" type="button">&#8592;</button>
-          <button class="slider-arrow slider-arrow-right" type="button">&#8594;</button>
+          <button class="slider-arrow slider-arrow-left fa fa-caret-left" type="button"></button>
+          <button class="slider-arrow slider-arrow-right fa fa-caret-right" type="button"></button>
         </div>
         <div class="slider-dots"></div>
       <?php endif; wp_reset_postdata();
@@ -278,8 +282,12 @@ $has_product_recipes = $recipe_query->have_posts();
       const slidesPerView = 4;
       let currentIndex = 0;
       const totalSlides = slides.length;
-      const totalPages = Math.ceil(totalSlides / slidesPerView);
+      const totalPages = Math.max(1, Math.ceil(totalSlides / slidesPerView));
       function updateSlider() {
+        // Ensure last group always shows last items
+        if (currentIndex > totalSlides - slidesPerView) {
+          currentIndex = Math.max(0, totalSlides - slidesPerView);
+        }
         slides.forEach((slide, i) => {
           slide.style.display = (i >= currentIndex && i < currentIndex + slidesPerView) ? 'block' : 'none';
         });
@@ -287,13 +295,33 @@ $has_product_recipes = $recipe_query->have_posts();
         if (dotsContainer) {
           dotsContainer.innerHTML = '';
           for (let i = 0; i < totalPages; i++) {
+            let dotIndex = i * slidesPerView;
+            // For the last dot, always show the last group
+            if (i === totalPages - 1) {
+              dotIndex = Math.max(0, totalSlides - slidesPerView);
+            }
             const dot = document.createElement('span');
-            dot.className = 'slider-dot' + (i === Math.floor(currentIndex / slidesPerView) ? ' active' : '');
+            dot.className = 'slider-dot' + (currentIndex === dotIndex ? ' active' : '');
             dot.addEventListener('click', function() {
-              currentIndex = i * slidesPerView;
+              currentIndex = dotIndex;
               updateSlider();
             });
             dotsContainer.appendChild(dot);
+          }
+        }
+        // Show/hide arrows
+        if (leftArrow) {
+          if (currentIndex === 0) {
+            leftArrow.style.display = 'none';
+          } else {
+            leftArrow.style.display = '';
+          }
+        }
+        if (rightArrow) {
+          if (currentIndex >= totalSlides - slidesPerView) {
+            rightArrow.style.display = 'none';
+          } else {
+            rightArrow.style.display = '';
           }
         }
       }
@@ -302,7 +330,12 @@ $has_product_recipes = $recipe_query->have_posts();
         updateSlider();
       });
       if (rightArrow) rightArrow.addEventListener('click', function() {
-        currentIndex = Math.min(totalSlides - slidesPerView, currentIndex + slidesPerView);
+        // Always allow last group to be visible
+        if (currentIndex + slidesPerView >= totalSlides) {
+          currentIndex = Math.max(0, totalSlides - slidesPerView);
+        } else {
+          currentIndex += slidesPerView;
+        }
         updateSlider();
       });
       // Initial display
