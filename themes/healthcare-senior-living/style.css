@@ -1479,14 +1479,13 @@ p.no-margin-bottom,
 		right: 22px;
 	}
 	.related-products-slider {
-		grid-template-columns: repeat(2, 1fr);
 		grid-template-rows: auto;
 		grid-column-gap: 20px;
 		grid-row-gap: 20px;
 	}
 	.related-products-slider .hsl-loop-content-container {
 		padding: 0 10px;
-		min-height: unset;
+		min-height: 130px;
 	}
 	.related-product-slide .product .woocommerce-loop-product__title {
 		font-size: 15px;
@@ -1536,6 +1535,9 @@ p.no-margin-bottom,
 	}
 	.recipe-accordion-filter {
 		max-width: unset;
+	}
+	.related-products-slider {
+		grid-template-columns: repeat(2, 1fr);
 	}
 
 	.single-product #product-hero .container {
