@@ -255,11 +255,13 @@ $has_product_recipes = $recipe_query->have_posts();
       $related_query = new WP_Query($args);
       if ($related_query->have_posts()) : ?>
         <div class="related-products-slider">
-          <?php while ($related_query->have_posts()) : $related_query->the_post(); global $product; ?>
-            <div class="related-product-slide">
-              <?php wc_get_template_part('content', 'product-slider'); ?>
-            </div>
-          <?php endwhile; ?>
+          <div class="slider-track">
+            <?php while ($related_query->have_posts()) : $related_query->the_post(); global $product; ?>
+              <div class="related-product-slide">
+                <?php wc_get_template_part('content', 'product-slider'); ?>
+              </div>
+            <?php endwhile; ?>
+          </div>
         </div>
         <div class="slider-nav">
           <button class="slider-arrow slider-arrow-left fa fa-caret-left" type="button"></button>
@@ -270,33 +272,61 @@ $has_product_recipes = $recipe_query->have_posts();
     }
     ?>
   </div>
+  <style>
+    .related-products-slider {
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+    }
+    .slider-track {
+      display: flex;
+      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+      will-change: transform;
+      width: 100%;
+    }
+    .related-product-slide {
+      min-width: 25%;
+      max-width: 25%;
+      box-sizing: border-box;
+      flex: 0 0 25%;
+    }
+    @media (max-width: 767px) {
+      .related-product-slide {
+        min-width: 50%;
+        max-width: 50%;
+        flex: 0 0 50%;
+      }
+    }
+  </style>
   <script>
     (function(){
-      // Simple slider logic for 4 columns, arrows, and dots
+      // Responsive slider logic: 4 columns by default, 2 columns below 767px, with sliding effect and touch support
       const slider = document.querySelector('.related-products-slider');
-      if (!slider) return;
-      const slides = Array.from(slider.children);
+      const track = slider.querySelector('.slider-track');
+      const slides = Array.from(track.children);
       const leftArrow = document.querySelector('.slider-arrow-left');
       const rightArrow = document.querySelector('.slider-arrow-right');
       const dotsContainer = document.querySelector('.slider-dots');
-      const slidesPerView = 4;
+      let slidesPerView = window.innerWidth < 767 ? 2 : 4;
       let currentIndex = 0;
       const totalSlides = slides.length;
-      const totalPages = Math.max(1, Math.ceil(totalSlides / slidesPerView));
+      let startX = 0, currentTranslate = 0, isDragging = false, animationID = 0;
+      function getTotalPages() {
+        return Math.max(1, Math.ceil(totalSlides / slidesPerView));
+      }
       function updateSlider() {
-        // Ensure last group always shows last items
+        slidesPerView = window.innerWidth < 767 ? 2 : 4;
         if (currentIndex > totalSlides - slidesPerView) {
           currentIndex = Math.max(0, totalSlides - slidesPerView);
         }
-        slides.forEach((slide, i) => {
-          slide.style.display = (i >= currentIndex && i < currentIndex + slidesPerView) ? 'block' : 'none';
-        });
+        const slideWidth = slides[0].offsetWidth;
+        track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
         // Update dots
         if (dotsContainer) {
           dotsContainer.innerHTML = '';
+          const totalPages = getTotalPages();
           for (let i = 0; i < totalPages; i++) {
             let dotIndex = i * slidesPerView;
-            // For the last dot, always show the last group
             if (i === totalPages - 1) {
               dotIndex = Math.max(0, totalSlides - slidesPerView);
             }
@@ -326,11 +356,12 @@ $has_product_recipes = $recipe_query->have_posts();
         }
       }
       if (leftArrow) leftArrow.addEventListener('click', function() {
+        slidesPerView = window.innerWidth < 767 ? 2 : 4;
         currentIndex = Math.max(0, currentIndex - slidesPerView);
         updateSlider();
       });
       if (rightArrow) rightArrow.addEventListener('click', function() {
-        // Always allow last group to be visible
+        slidesPerView = window.innerWidth < 767 ? 2 : 4;
         if (currentIndex + slidesPerView >= totalSlides) {
           currentIndex = Math.max(0, totalSlides - slidesPerView);
         } else {
@@ -338,9 +369,46 @@ $has_product_recipes = $recipe_query->have_posts();
         }
         updateSlider();
       });
+      // Touch/drag support
+      track.addEventListener('touchstart', startDrag, {passive: true});
+      track.addEventListener('touchmove', onDrag, {passive: false});
+      track.addEventListener('touchend', endDrag);
+      track.addEventListener('mousedown', startDrag);
+      track.addEventListener('mousemove', onDrag);
+      track.addEventListener('mouseup', endDrag);
+      track.addEventListener('mouseleave', endDrag);
+      function startDrag(e) {
+        isDragging = true;
+        startX = e.touches ? e.touches[0].clientX : e.clientX;
+        currentTranslate = -currentIndex * slides[0].offsetWidth;
+        track.style.transition = 'none';
+        cancelAnimationFrame(animationID);
+      }
+      function onDrag(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x = e.touches ? e.touches[0].clientX : e.clientX;
+        const dx = x - startX;
+        track.style.transform = `translateX(${currentTranslate + dx}px)`;
+      }
+      function endDrag(e) {
+        if (!isDragging) return;
+        isDragging = false;
+        track.style.transition = '';
+        const x = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+        const dx = x - startX;
+        const slideWidth = slides[0].offsetWidth;
+        if (Math.abs(dx) > slideWidth / 4) {
+          if (dx < 0 && currentIndex < totalSlides - slidesPerView) {
+            currentIndex += slidesPerView;
+          } else if (dx > 0 && currentIndex > 0) {
+            currentIndex -= slidesPerView;
+          }
+        }
+        updateSlider();
+      }
       // Initial display
       updateSlider();
-      // Responsive: show less if not enough space
       window.addEventListener('resize', updateSlider);
     })();
   </script>
