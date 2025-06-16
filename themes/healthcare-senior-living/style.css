@@ -375,12 +375,35 @@ p.no-margin-bottom,
 .tax-product_cat.term-organic-shell-eggs
 	.hsl-loop-header
 	.hsl-loop-header_image {
-	padding: 76px 0 76px 410px;
+	padding: 76px 0;
 }
+
 .hsl-loop-header .hsl-loop-header_image img {
 	aspect-ratio: unset;
 	object-fit: unset;
 	min-height: unset;
+}
+
+.tax-product_cat.term-regular-shell-eggs
+	.hsl-loop-header
+	.hsl-loop-header_image
+	img,
+.tax-product_cat.term-omega-3-shell-eggs
+	.hsl-loop-header
+	.hsl-loop-header_image
+	img,
+.tax-product_cat.tax-product_cat.term-free-run-shell-eggs
+	.hsl-loop-header
+	.hsl-loop-header_image
+	img,
+.tax-product_cat.term-organic-shell-eggs
+	.hsl-loop-header
+	.hsl-loop-header_image
+	img {
+	object-fit: contain;
+	height: 100%;
+	max-height: 300px;
+	object-position: right;
 }
 
 /* Recipes */
@@ -1250,9 +1273,10 @@ p.no-margin-bottom,
 		.hsl-loop-header_image
 		img {
 		min-height: unset;
-		max-height: 150px;
+		max-height: 250px;
 		width: auto;
 		object-fit: contain;
+		object-position: unset;
 	}
 	.hsl-loop-container.shell-eggs .hsl-loop-content-container {
 		padding: 5px 15px 15px;
