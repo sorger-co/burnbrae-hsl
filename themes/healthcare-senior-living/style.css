@@ -201,6 +201,9 @@ p.no-margin-bottom,
 	background-color: var(--e-global-color-secondary);
 	border-radius: 50%;
 }
+.term-shell-eggs #shell-eggs-sub {
+	margin-top: 70px;
+}
 
 .hsl-egg-sizes {
 	margin: -5px -21px 0 0;
@@ -259,6 +262,7 @@ p.no-margin-bottom,
 .tax-product_cat.term-free-run-shell-eggs .hsl-loop-header,
 .tax-product_cat.term-organic-shell-eggs .hsl-loop-header {
 	background-color: #fff;
+	gap: 28px;
 }
 .tax-product_cat.term-regular-shell-eggs
 	.hsl-loop-header
@@ -358,6 +362,25 @@ p.no-margin-bottom,
 	.hsl-loop-header___content
 	h1:after {
 	background-image: url('assets/img/organic.svg');
+}
+.tax-product_cat.term-regular-shell-eggs
+	.hsl-loop-header
+	.hsl-loop-header_image,
+.tax-product_cat.term-omega-3-shell-eggs
+	.hsl-loop-header
+	.hsl-loop-header_image,
+.tax-product_cat.tax-product_cat.term-free-run-shell-eggs
+	.hsl-loop-header
+	.hsl-loop-header_image,
+.tax-product_cat.term-organic-shell-eggs
+	.hsl-loop-header
+	.hsl-loop-header_image {
+	padding: 76px 0 76px 410px;
+}
+.hsl-loop-header .hsl-loop-header_image img {
+	aspect-ratio: unset;
+	object-fit: unset;
+	min-height: unset;
 }
 
 /* Recipes */
@@ -1013,7 +1036,7 @@ p.no-margin-bottom,
 		border-bottom: 1px solid var(--e-global-color-c80fc3f);
 		padding: 10px 0;
 	}
-	#header-menu .eael-simple-menu li ul li:last-of-type a {
+	#header-menu .eael-simple-menu li ul li:last-of-type > a {
 		border-bottom: none;
 	}
 }
@@ -1045,6 +1068,14 @@ p.no-margin-bottom,
 	#header-menu .eael-simple-menu-toggle-text {
 		display: none;
 	}
+	#header-menu .eael-simple-menu li span.eael-simple-menu-indicator {
+		display: none;
+	}
+	#header-menu .eael-simple-menu li ul {
+		background-color: transparent;
+		padding: 0;
+	}
+
 	.img-side-box-resp {
 		aspect-ratio: 1/1;
 	}
@@ -1188,6 +1219,41 @@ p.no-margin-bottom,
 		top: 10px;
 		right: calc(50% - 25px);
 	}
+	.tax-product_cat.term-regular-shell-eggs
+		.hsl-loop-header
+		.hsl-loop-header_image,
+	.tax-product_cat.term-omega-3-shell-eggs
+		.hsl-loop-header
+		.hsl-loop-header_image,
+	.tax-product_cat.tax-product_cat.term-free-run-shell-eggs
+		.hsl-loop-header
+		.hsl-loop-header_image,
+	.tax-product_cat.term-organic-shell-eggs
+		.hsl-loop-header
+		.hsl-loop-header_image {
+		padding: 0;
+	}
+	.tax-product_cat.term-regular-shell-eggs
+		.hsl-loop-header
+		.hsl-loop-header_image
+		img,
+	.tax-product_cat.term-omega-3-shell-eggs
+		.hsl-loop-header
+		.hsl-loop-header_image
+		img,
+	.tax-product_cat.tax-product_cat.term-free-run-shell-eggs
+		.hsl-loop-header
+		.hsl-loop-header_image
+		img,
+	.tax-product_cat.term-organic-shell-eggs
+		.hsl-loop-header
+		.hsl-loop-header_image
+		img {
+		min-height: unset;
+		max-height: 150px;
+		width: auto;
+		object-fit: contain;
+	}
 	.hsl-loop-container.shell-eggs .hsl-loop-content-container {
 		padding: 5px 15px 15px;
 		margin-top: 0;
@@ -1198,6 +1264,9 @@ p.no-margin-bottom,
 	}
 	.hsl-egg-size-attr {
 		font-size: 15px;
+	}
+	.term-shell-eggs #shell-eggs-sub {
+		margin-top: 0px;
 	}
 	.single-recipe .page-header {
 		display: flex;
@@ -1513,6 +1582,30 @@ p.no-margin-bottom,
 		flex-direction: column-reverse;
 		text-align: center;
 	}
+
+	.tax-product_cat.term-regular-shell-eggs .hsl-loop-header,
+	.tax-product_cat.term-omega-3-shell-eggs .hsl-loop-header,
+	.tax-product_cat.term-free-run-shell-eggs .hsl-loop-header,
+	.tax-product_cat.term-organic-shell-eggs .hsl-loop-header {
+		gap: 0;
+	}
+
+	.tax-product_cat.term-regular-shell-eggs
+		.hsl-loop-header
+		.hsl-loop-header_image,
+	.tax-product_cat.term-omega-3-shell-eggs
+		.hsl-loop-header
+		.hsl-loop-header_image,
+	.tax-product_cat.tax-product_cat.term-free-run-shell-eggs
+		.hsl-loop-header
+		.hsl-loop-header_image,
+	.tax-product_cat.term-organic-shell-eggs
+		.hsl-loop-header
+		.hsl-loop-header_image {
+		padding: 10px 80px;
+		background-color: #b7dff6;
+	}
+
 	.single-recipe .recipe-featured-products .container {
 		padding: 24px 0;
 	}

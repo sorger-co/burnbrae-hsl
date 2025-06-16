@@ -61,12 +61,16 @@ function hsl_open_loop_container() {
     if( is_product_category(19) || $current_category_parent == 19 ){
         $prod_loop_class .=' shell-eggs';
     }
-    echo '<div class="'.$prod_loop_class.'">';
+    if ( !is_product_category(19)) {
+        echo '<div class="'.$prod_loop_class.'">';
+    }
 }
 add_action( 'woocommerce_before_shop_loop', 'hsl_open_loop_container', 9 );
 
 function hsl_close_loop_container() {
-    echo '</div>';
+    if ( !is_product_category(19)) {
+        echo '</div>';
+    }
 }
 add_action( 'woocommerce_after_main_content', 'hsl_close_loop_container', 1);
 

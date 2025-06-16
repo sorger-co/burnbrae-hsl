@@ -50,7 +50,7 @@ if ( woocommerce_product_loop() ) {
 	woocommerce_product_loop_start();
 
 	if ( wc_get_loop_prop( 'total' ) ) {
-		if ( is_product_category() ) {
+		if ( is_product_category() && !is_product_category( '19' ) ) {
 			$cate = get_queried_object();
 			$parent_category_ID = $cate->term_id;
 			$args = array(
@@ -77,7 +77,7 @@ if ( woocommerce_product_loop() ) {
 					wc_get_template_part( 'content', 'product' );
 				}
 			}
-		} else {
+		} else if ( !is_product_category( '19' ) ) {
 			while ( have_posts() ) {
 				the_post();
 				/**
