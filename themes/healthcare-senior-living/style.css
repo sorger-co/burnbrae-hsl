@@ -72,7 +72,7 @@ p.no-margin-bottom,
 	margin-top: -100px;
 	position: relative;
 	z-index: 1;
-	min-height: 205px;
+	min-height: 230px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
