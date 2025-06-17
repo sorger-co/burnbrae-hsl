@@ -510,7 +510,6 @@ p.no-margin-bottom,
 	text-align: center;
 	border-left: 1px solid var(--e-global-color-c80fc3f);
 	border-top: 1px solid var(--e-global-color-c80fc3f);
-	background-color: #fff;
 }
 .single-recipe .recipe-nutrients .recipe-nutrients-list .recipe-nutrient-item {
 	border-right: 1px solid var(--e-global-color-c80fc3f);
@@ -527,6 +526,9 @@ p.no-margin-bottom,
 	font-weight: 700;
 	background-color: #b7dff6;
 	border-bottom: 1px solid var(--e-global-color-c80fc3f);
+}
+.single-recipe .recipe-nutrients .recipe-nutrient-value {
+	background-color: #fff;
 }
 .single-recipe .recipe-featured-products .products-list {
 	display: flex;
@@ -1329,7 +1331,6 @@ p.no-margin-bottom,
 		flex-direction: column;
 	}
 	.single-recipe .recipe-nutrients .recipe-nutrients-list {
-		background-color: transparent;
 		font-size: 18px;
 		line-height: 21px;
 	}
@@ -1371,6 +1372,9 @@ p.no-margin-bottom,
 		.recipe-nutrient-item
 		> div {
 		padding: 6px 0;
+	}
+	.single-recipe .recipe-nutrients .recipe-nutrient-value {
+		background-color: transparent;
 	}
 	.single-recipe .recipe-featured-products .products-list {
 		padding: 0;
