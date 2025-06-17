@@ -64,7 +64,7 @@ if ( woocommerce_product_loop() ) {
 			if ($subcategories) {
 				foreach ($subcategories as $subcategory) {
 						echo '<h2 class="hsl_prod_subcat">'.$subcategory->name.'</h2>';
-						echo do_shortcode( '[product_category category="'. $subcategory->term_id .'" limit="24" columns="3" order="ASC"]' );
+						echo do_shortcode( '[product_category category="'. $subcategory->term_id .'" limit="24" columns="3" orderby="include" order="DESC"]' );
 				}
 			} else {
 				while ( have_posts() ) {
