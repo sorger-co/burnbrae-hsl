@@ -117,7 +117,7 @@ p.no-margin-bottom,
 .hsl-loop-container.shell-eggs .hsl-loop-content-container {
 	padding: 18px 35px 25px;
 	margin-top: 0;
-	min-height: 155px;
+	min-height: 180px;
 }
 .product .woocommerce-loop-product__link {
 	text-decoration: none;
@@ -617,6 +617,13 @@ p.no-margin-bottom,
 .archive-grid .archive-grid-item a {
 	text-decoration: none;
 }
+.post-type-archive-recipe
+	.archive-grid
+	.archive-grid-item
+	.entry-title
+	a:not(:hover) {
+	color: var(--e-global-color-secondary);
+}
 .archive-grid .archive-grid-item .wp-post-image {
 	width: 100%;
 	height: auto;
@@ -687,7 +694,7 @@ p.no-margin-bottom,
 	color: #fff;
 }
 .recipe-accordion-filter {
-	color: var(--e-global-color-secondary);
+	color: #003972;
 	width: 100%;
 	max-width: 335px;
 	display: flex;
@@ -732,7 +739,7 @@ p.no-margin-bottom,
 	display: block;
 	width: 100%;
 	background-color: #b7dff6;
-	color: var(--e-global-color-secondary);
+	color: #003972;
 	font-family: var(--e-global-typography-secondary-font-family), serif;
 	font-size: 17px;
 	line-height: 23px;

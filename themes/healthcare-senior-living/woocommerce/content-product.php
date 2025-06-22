@@ -62,6 +62,29 @@ if ( ! is_a( $product, WC_Product::class ) || ! $product->is_visible() ) {
 	 * @hooked woocommerce_template_loop_product_link_close - 5
 	 * @hooked woocommerce_template_loop_add_to_cart - 10
 	 */
+	// Check if product is in category 19 or has parent 19
+	$product_cats = get_the_terms( $product->get_id(), 'product_cat' );
+	$in_cat_19 = false;
+	if ( ! empty( $product_cats ) && ! is_wp_error( $product_cats ) ) {
+	    foreach ( $product_cats as $cat ) {
+	        if ( $cat->term_id == 19 || $cat->parent == 19 ) {
+	            $in_cat_19 = true;
+	            break;
+	        }
+	    }
+	    if ( $in_cat_19 ) {
+	        remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10 );
+	        // Check for _hsl_nutrition_image_id metabox and display image URL if exists
+	        $nutrition_image_id = get_post_meta( $product->get_id(), '_hsl_nutrition_image_id', true );
+	        if ( $nutrition_image_id ) {
+	            $nutrition_image_url = wp_get_attachment_url( $nutrition_image_id );
+	            if ( $nutrition_image_url ) {
+	                echo '<a class="button product_type_simple" href="' . esc_url( $nutrition_image_url ) . '" target="_blank">Nutritional Information</a>';
+	            }
+	        }
+	    }
+	}
+
 	do_action( 'woocommerce_after_shop_loop_item' );
 	?>
 </li>
