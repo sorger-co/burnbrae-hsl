@@ -72,7 +72,6 @@ echo "</div>";
 	    foreach ( $product_cats as $cat ) {
 	        if ( $cat->term_id == 19 || $cat->parent == 19 ) {
 	            $in_cat_19 = true;
-	            break;
 	        }
 	    }
 	    if ( $in_cat_19 ) {
@@ -85,6 +84,8 @@ echo "</div>";
 	                echo '<a class="button product_type_simple" href="' . esc_url( $nutrition_image_url ) . '" target="_blank">Nutritional Information</a>';
 	            }
 	        }
+	    } else {
+	        add_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10 );
 	    }
 	}
 	do_action( 'woocommerce_after_shop_loop_item' );
