@@ -63,10 +63,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</div>
 		<?php
 		$curr_cat = get_queried_object(); 
-    $curr_cat_parent = $curr_cat->parent;
+	$curr_cat_parent = $curr_cat->parent;
 		if ( $curr_cat_parent == 19) {
 			echo do_shortcode( '[INSERT_ELEMENTOR id="2133"]' );
-		} else {
+	} elseif (
+		$curr_cat->term_id != 21 &&
+		$curr_cat->term_id != 22 &&
+		$curr_cat_parent != 21 &&
+		$curr_cat_parent != 22
+	) {
 			echo do_shortcode( '[INSERT_ELEMENTOR id="2051"]' );
 		}
 
