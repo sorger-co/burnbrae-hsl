@@ -198,7 +198,8 @@ p.no-margin-bottom,
 }
 .hsl-prod-attrs .hsl-attr.fat-free,
 .hsl-prod-attrs .hsl-attr.free-run,
-.hsl-prod-attrs .hsl-attr.frozen {
+.hsl-prod-attrs .hsl-attr.frozen,
+.hsl-prod-attrs .hsl-attr.gluten-free {
 	background-color: transparent;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -212,6 +213,9 @@ p.no-margin-bottom,
 }
 .hsl-prod-attrs .hsl-attr.frozen {
 	background-image: url('assets/img/frozen.svg');
+}
+.hsl-prod-attrs .hsl-attr.gluten-free {
+	background-image: url('assets/img/gluten-free.webp');
 }
 .hsl-egg-size-attr {
 	color: #fff;
