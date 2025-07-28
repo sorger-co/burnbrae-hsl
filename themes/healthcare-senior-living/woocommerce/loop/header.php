@@ -80,7 +80,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		}
 
 		if( is_product_category(21) || $this_category->category_parent == 21 || is_product_category(22) || $this_category->category_parent == 22 ) {
-			echo do_shortcode( '[INSERT_ELEMENTOR id="37948"]' );
+			echo do_shortcode( '[INSERT_ELEMENTOR id="3794"]' );
 		}
 	}
 
