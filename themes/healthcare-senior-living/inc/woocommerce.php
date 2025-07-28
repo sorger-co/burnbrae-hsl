@@ -29,7 +29,7 @@ remove_action( 'woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 3
  */
 function hsl_display_short_desciption_in_loop() {
     
-	global $product;
+    global $product;
     
     $short_description = apply_filters( 'woocommerce_short_description', $product->get_short_description() );
     
@@ -49,7 +49,7 @@ add_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_template_loo
  * Link title in loop
  */
 add_action( 'woocommerce_shop_loop_item_title', 'woocommerce_template_loop_product_link_open', 9 );
-add_action( 'woocommerce_shop_loop_item_title', 'woocommerce_template_loop_product_link_close', 12 );
+add_action( 'woocommerce_shop_loop_item_title', 'woocommerce_template_loop_product_link_close', 22 );
 
 /**
  * Add loop container
@@ -81,7 +81,7 @@ function hsl_after_loop_container() {
     $current_category = get_queried_object(); 
     $current_category_parent = $current_category->parent;
     if( is_product_category(19) || $current_category_parent == 19 ) {
-		echo do_shortcode( '[INSERT_ELEMENTOR id="2100"]' );
+        echo do_shortcode( '[INSERT_ELEMENTOR id="2100"]' );
     } else if (!is_product())  {
         echo do_shortcode( '[INSERT_ELEMENTOR id="2083"]' );
     }
@@ -139,7 +139,7 @@ function display_custom_product_attributes_on_loop() {
         echo '<div class="hsl-prod-attrs">'. implode(' ', $attributes) . '</div>';
     }
 }
-add_action('woocommerce_shop_loop_item_title', 'display_egg_size_attributes_on_loop', 11 );
+add_action('woocommerce_shop_loop_item_title', 'display_egg_size_attributes_on_loop', 21 );
 function display_egg_size_attributes_on_loop() {
     global $product;
 
@@ -323,3 +323,33 @@ add_action('save_post_product', function($post_id) {
     }
 });
 
+/**
+ * Change product title in loop
+ */ 
+remove_action( 'woocommerce_shop_loop_item_title', 'woocommerce_template_loop_product_title', 10 );
+
+function bbf_loop_product_title() {
+    global $product;
+
+    $prod_brands = array('BURNBRAE FARMS', 'EGG BAKES!', 'EGG BITES!', 'EGG CREATIONS!', 'EGGS2GO!', 'NATUREGG', 'PRESTIGE');
+
+    $name = $product->get_name();
+    $prod_name = $name;
+    foreach ($prod_brands as $brand) {
+        if (strpos($name, $brand) === 0) { // Case-sensitive match
+            $brand_len = strlen($brand);
+            $rest = trim(substr($name, $brand_len));
+            if ($rest !== '') {
+                $prod_name = $brand . ' <br />' . $rest;
+            } else {
+                $prod_name = $brand;
+            }
+            break;
+        }
+    }
+
+    $output = '<h2 class="' . esc_attr( apply_filters( 'woocommerce_product_loop_title_classes', 'woocommerce-loop-product__title' ) ) . '">' . $prod_name . '</h2>'; // phpcs:ignore WordPress.Security.EscapeOutput.
+
+    echo $output;
+}
+add_action( 'woocommerce_shop_loop_item_title', 'bbf_loop_product_title', 11 );
