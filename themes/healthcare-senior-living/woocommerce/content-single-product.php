@@ -27,8 +27,8 @@ global $product;
 do_action( 'woocommerce_before_single_product' );
 
 if ( post_password_required() ) {
-	echo get_the_password_form(); // WPCS: XSS ok.
-	return;
+  echo get_the_password_form(); // WPCS: XSS ok.
+  return;
 }
 ?>
 <div id="product-<?php the_ID(); ?>" <?php wc_product_class( '', $product ); ?>>
@@ -217,7 +217,6 @@ $has_product_recipes = $recipe_query->have_posts();
     (function(){
       const tabBtns = document.querySelectorAll('.hsl-product-tabs .tab-btn');
       const tabContents = document.querySelectorAll('.hsl-product-tabs .tab-content');
-      const productHero = document.getElementById('product-hero');
       let openTab = null;
 
       tabBtns.forEach(btn => {
@@ -227,14 +226,12 @@ $has_product_recipes = $recipe_query->have_posts();
 
           if (openTab === content) {
             content.style.display = 'none';
-            productHero.style.display = '';
             openTab = null;
             this.classList.remove('active');
           } else {
             tabContents.forEach(tc => tc.style.display = 'none');
             tabBtns.forEach(b => b.classList.remove('active'));
             content.style.display = 'block';
-            productHero.style.display = 'none';
             openTab = content;
             this.classList.add('active');
           }
@@ -413,26 +410,26 @@ $has_product_recipes = $recipe_query->have_posts();
     })();
   </script>
   
-	<?php
-	/**
-	 * Hook: woocommerce_before_single_product_summary.
-	 *
-	 * @hooked woocommerce_show_product_sale_flash - 10
-	 * @hooked woocommerce_show_product_images - 20
-	 */
-	do_action( 'woocommerce_before_single_product_summary' );
-	?>
+  <?php
+  /**
+   * Hook: woocommerce_before_single_product_summary.
+   *
+   * @hooked woocommerce_show_product_sale_flash - 10
+   * @hooked woocommerce_show_product_images - 20
+   */
+  do_action( 'woocommerce_before_single_product_summary' );
+  ?>
 
-	<?php
-	/**
-	 * Hook: woocommerce_after_single_product_summary.
-	 *
-	 * @hooked woocommerce_output_product_data_tabs - 10
-	 * @hooked woocommerce_upsell_display - 15
-	 * @hooked woocommerce_output_related_products - 20
-	 */
-	do_action( 'woocommerce_after_single_product_summary' );
-	?>
+  <?php
+  /**
+   * Hook: woocommerce_after_single_product_summary.
+   *
+   * @hooked woocommerce_output_product_data_tabs - 10
+   * @hooked woocommerce_upsell_display - 15
+   * @hooked woocommerce_output_related_products - 20
+   */
+  do_action( 'woocommerce_after_single_product_summary' );
+  ?>
 </div>
 
 <?php do_action( 'woocommerce_after_single_product' ); ?>
