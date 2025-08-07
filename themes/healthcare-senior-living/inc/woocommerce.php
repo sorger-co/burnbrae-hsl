@@ -5,7 +5,7 @@
  */ 
 add_filter( 'loop_shop_per_page', 'hsl_loop_shop_per_page', 20 );
 function hsl_loop_shop_per_page( $cols ) {
-  $cols = 24;
+  $cols = 99;
   return $cols;
 }
 
