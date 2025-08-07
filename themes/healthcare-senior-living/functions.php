@@ -35,6 +35,10 @@ function healthcare_enqueue_loadmore_script() {
             'query_vars' => json_encode($wp_query->query)
         ));
     }
+
+    if (is_front_page() || is_home()) {
+      wp_enqueue_script('bbf-slider-autoplay', get_stylesheet_directory_uri() . '/assets/bbf-slider-autoplay.js', array('jquery'), null, true);
+    }
 }
 add_action('wp_enqueue_scripts', 'healthcare_enqueue_loadmore_script');
 
