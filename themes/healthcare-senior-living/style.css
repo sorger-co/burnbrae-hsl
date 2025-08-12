@@ -1076,7 +1076,7 @@ p.no-margin-bottom,
 }
 
 /* Responsive */
-@media screen and (min-width: 1361px) {
+@media screen and (min-width: 1201px) {
 	#header-menu .eael-simple-menu-container {
 		min-height: unset;
 	}
@@ -1103,7 +1103,7 @@ p.no-margin-bottom,
 	}
 }
 
-@media screen and (max-width: 1360px) {
+@media screen and (max-width: 1200px) {
 	#header-menu .eael-simple-menu li > a {
 		padding: 10px 0;
 	}
