@@ -1142,18 +1142,6 @@ p.no-margin-bottom,
 		aspect-ratio: 1/1;
 	}
 
-	#footer-menu li.menu-item {
-		display: block;
-		width: 100%;
-		margin-right: 0;
-	}
-	#footer-menu li.menu-item:not(:last-of-type) {
-		margin-bottom: 17px;
-	}
-	#footer-menu li.menu-item a {
-		justify-content: center;
-	}
-
 	.woocommerce-products-header .page-title,
 	.woocommerce-no-products-found,
 	.hsl-loop-container {
@@ -1709,5 +1697,17 @@ p.no-margin-bottom,
 	.hsl-product-tabs .tab-buttons .container {
 		grid-template-columns: 1fr;
 		grid-column-gap: 0;
+	}
+
+	#footer-menu li.menu-item {
+		display: block;
+		width: 100%;
+		margin-right: 0;
+	}
+	#footer-menu li.menu-item:not(:last-of-type) {
+		margin-bottom: 17px;
+	}
+	#footer-menu li.menu-item a {
+		justify-content: center;
 	}
 }
