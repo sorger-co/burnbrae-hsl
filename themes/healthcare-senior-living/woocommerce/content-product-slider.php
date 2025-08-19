@@ -81,7 +81,7 @@ echo "</div>";
 	        if ( $nutrition_image_id ) {
 	            $nutrition_image_url = wp_get_attachment_url( $nutrition_image_id );
 	            if ( $nutrition_image_url ) {
-	                echo '<a class="button product_type_simple" href="' . esc_url( $nutrition_image_url ) . '" target="_blank">Nutritional Information</a>';
+									echo '<a class="button product_type_simple" href="' . esc_url( $nutrition_image_url ) . '" data-elementor-open-lightbox="yes">Nutritional Information</a>';
 	            }
 	        }
 	    } else {

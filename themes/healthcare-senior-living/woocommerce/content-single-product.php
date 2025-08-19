@@ -35,6 +35,30 @@ if ( post_password_required() ) {
   <div id="product-hero">
     <div class="container">
       <div class="product-hero-content">
+
+        <?php
+        // Display brand thumbnail or title if product has product_brand taxonomy
+        $brand_terms = get_the_terms( $product->get_id(), 'product_brand' );
+        if ( ! is_wp_error( $brand_terms ) && ! empty( $brand_terms ) ) {
+          foreach ( $brand_terms as $brand ) {
+            // Try both possible meta keys for WooCommerce Brands image
+            $thumbnail_id = get_term_meta( $brand->term_id, 'brand_image', true );
+            if ( ! $thumbnail_id ) {
+              $thumbnail_id = get_term_meta( $brand->term_id, 'thumbnail_id', true );
+            }
+            if ( $thumbnail_id ) {
+              $image = wp_get_attachment_image( $thumbnail_id, 'thumbnail', false, array( 'class' => 'brand-thumbnail' ) );
+              if ( $image ) {
+                echo '<div class="product-brand-thumbnail">' . $image . '</div>';
+              } else {
+                echo '<span class="product-brand-title">' . esc_html( $brand->name ) . '</span> ';
+              }
+            } else {
+              echo '<div class="product-brand-title">' . esc_html( $brand->name ) . '</div>';
+            }
+          }
+        }
+        ?>
         <h1 class="product-title"><?php the_title(); ?></h1>
         <?php echo apply_filters( 'the_content', $product->get_description() ); ?>
       </div>

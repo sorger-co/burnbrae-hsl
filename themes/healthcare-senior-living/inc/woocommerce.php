@@ -331,24 +331,16 @@ remove_action( 'woocommerce_shop_loop_item_title', 'woocommerce_template_loop_pr
 function bbf_loop_product_title() {
     global $product;
 
-    $prod_brands = array('BURNBRAE FARMS', 'EGG BAKES!', 'EGG BITES!', 'EGG CREATIONS!', 'EGGS2GO!', 'NATUREGG', 'PRESTIGE');
+    $prod_name = $product->get_name();
 
-    $name = $product->get_name();
-    $prod_name = $name;
-    foreach ($prod_brands as $brand) {
-        if (strpos($name, $brand) === 0) { // Case-sensitive match
-            $brand_len = strlen($brand);
-            $rest = trim(substr($name, $brand_len));
-            if ($rest !== '') {
-                $prod_name = $brand . ' <br />' . $rest;
-            } else {
-                $prod_name = $brand;
-            }
-            break;
-        }
+    // Get brand name from 'product_brand' taxonomy
+    $brand_names = wp_get_post_terms( $product->get_id(), 'product_brand', array( 'fields' => 'names' ) );
+    $brand_html = '';
+    if ( ! is_wp_error( $brand_names ) && ! empty( $brand_names ) ) {
+        $brand_html = '<span class="product-brand">' . esc_html( implode( ', ', $brand_names ) ) . '</span> ';
     }
 
-    $output = '<h2 class="' . esc_attr( apply_filters( 'woocommerce_product_loop_title_classes', 'woocommerce-loop-product__title' ) ) . '">' . $prod_name . '</h2>'; // phpcs:ignore WordPress.Security.EscapeOutput.
+    $output = '<h2 class="' . esc_attr( apply_filters( 'woocommerce_product_loop_title_classes', 'woocommerce-loop-product__title' ) ) . '">' . $brand_html . $prod_name . '</h2>'; // phpcs:ignore WordPress.Security.EscapeOutput.
 
     echo $output;
 }

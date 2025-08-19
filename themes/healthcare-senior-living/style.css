@@ -134,6 +134,26 @@ p.no-margin-bottom,
 	margin: 15px 0 10px;
 	padding: 0;
 }
+
+.related-product-slide .product .woocommerce-loop-product__title .product-brand,
+.single-recipe
+	.recipe-featured-products
+	.woocommerce-loop-product__title
+	.product-brand,
+.woocommerce
+	ul.products
+	li.product
+	.woocommerce-loop-product__title
+	.product-brand {
+	text-transform: uppercase;
+}
+.woocommerce
+	ul.products
+	li.product
+	.woocommerce-loop-product__title
+	.product-brand {
+	display: block;
+}
 .hsl-loop-content-container p,
 .single-recipe .recipe-featured-products p {
 	margin: 0;
@@ -1065,11 +1085,22 @@ p.no-margin-bottom,
 .single-product #product-hero .product-hero-content P:last-of-type {
 	margin-bottom: 0;
 }
-.single-product #product-hero .product-title {
+.single-product #product-hero .product-title,
+.single-product #product-hero .product-brand-title {
 	color: #1c4780;
 	font-size: 45px;
 	line-height: 1.2em;
 	margin: 0 0 10px;
+}
+.single-product #product-hero .product-brand-title {
+	margin-bottom: 0;
+	text-transform: uppercase;
+	font-family: var(--e-global-typography-secondary-font-family), serif;
+}
+.single-product #product-hero .product-brand-thumbnail img {
+	margin-bottom: 13px;
+	width: 188px;
+	height: auto;
 }
 .single-product #product-hero .product-image {
 	width: 35%;
@@ -1467,10 +1498,18 @@ p.no-margin-bottom,
 	.single-product #product-hero .product-hero-content p:not(:last-of-type) {
 		margin-bottom: 8px;
 	}
-	.single-product #product-hero .product-title {
+	.single-product #product-hero .product-title,
+	.single-product #product-hero .product-brand-title {
 		font-size: 26px;
 		line-height: 30px;
 		margin-bottom: 8px;
+	}
+	.single-product #product-hero .product-brand-title {
+		margin-bottom: 0;
+	}
+	.single-product #product-hero .product-brand-thumbnail img {
+		margin-bottom: 10px;
+		width: 167px;
 	}
 
 	.hsl-product-tabs .tab-buttons {
@@ -1693,6 +1732,9 @@ p.no-margin-bottom,
 	.single-product #product-hero .product-image {
 		padding: 0 36px;
 		width: auto;
+	}
+	.single-product #product-hero .product-brand-thumbnail img {
+		margin: 0 auto 10px;
 	}
 	.hsl-product-tabs .tab-buttons .container {
 		grid-template-columns: 1fr;
