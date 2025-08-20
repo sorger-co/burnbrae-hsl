@@ -44,6 +44,22 @@ p.no-margin-bottom,
 	background-color: var(--e-global-color-secondary);
 }
 
+.elementor-slideshow__header .e-font-icon-svg {
+	display: none;
+}
+
+.elementor-slideshow__header .elementor-slideshow__title {
+	font-size: 24px;
+	font-weight: 700;
+	color: var(--e-global-color-3d3fc2a);
+}
+
+.elementor-slideshow__header .elementor-slideshow__subtitle {
+	font-size: 18px;
+	font-weight: 400;
+	color: var(--e-global-color-3d3fc2a);
+}
+
 /* WooCommerce */
 .woocommerce nav.woocommerce-pagination ul {
 	border: none;
@@ -280,7 +296,7 @@ p.no-margin-bottom,
 }
 .hsl-loop-header .hsl-loop-header___content {
 	grid-area: 1 / 1 / 2 / 2;
-	padding: 50px 95px 50px 160px;
+	padding: 40px 95px 40px 160px;
 }
 .hsl-loop-header .hsl-loop-header___content .term-description p {
 	font-size: 22px;
