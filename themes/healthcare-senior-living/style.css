@@ -235,7 +235,8 @@ p.no-margin-bottom,
 .hsl-prod-attrs .hsl-attr.fat-free,
 .hsl-prod-attrs .hsl-attr.free-run,
 .hsl-prod-attrs .hsl-attr.frozen,
-.hsl-prod-attrs .hsl-attr.gluten-free {
+.hsl-prod-attrs .hsl-attr.gluten-free,
+.hsl-prod-attrs .hsl-attr.organic{
 	background-color: transparent;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -252,6 +253,9 @@ p.no-margin-bottom,
 }
 .hsl-prod-attrs .hsl-attr.gluten-free {
 	background-image: url('assets/img/gluten-free.svg');
+}
+.hsl-prod-attrs .hsl-attr.organic {
+	background-image: url('assets/img/organic.svg');
 }
 .hsl-egg-size-attr {
 	color: #fff;
