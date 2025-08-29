@@ -345,3 +345,17 @@ function bbf_loop_product_title() {
     echo $output;
 }
 add_action( 'woocommerce_shop_loop_item_title', 'bbf_loop_product_title', 11 );
+
+
+// Force WooCommerce to always use custom sorting (drag & drop)
+add_filter( 'woocommerce_get_catalog_ordering_args', function( $args ) {
+    $args['orderby']  = 'menu_order title'; // custom order first, then alphabetical
+    $args['order']    = 'ASC';
+    $args['meta_key'] = '';
+    return $args;
+});
+
+// Set default orderby to menu_order
+add_filter( 'woocommerce_default_catalog_orderby', function() {
+    return 'menu_order';
+});
