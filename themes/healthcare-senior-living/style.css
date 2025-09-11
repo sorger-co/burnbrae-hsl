@@ -966,6 +966,10 @@ p.no-margin-bottom,
 	margin-top: 0;
 }
 
+.hsl-heating-instructions {
+  display: flex;
+}
+
 .related-products-slider-wrapper {
 	position: relative;
 	background-color: #e6f6fe;
