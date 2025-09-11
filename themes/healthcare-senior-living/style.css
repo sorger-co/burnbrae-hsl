@@ -967,7 +967,7 @@ p.no-margin-bottom,
 }
 
 .hsl-heating-instructions {
-  display: flex;
+  display: grid;
 }
 
 .related-products-slider-wrapper {
