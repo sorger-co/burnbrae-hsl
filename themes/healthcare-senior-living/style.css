@@ -236,7 +236,9 @@ p.no-margin-bottom,
 .hsl-prod-attrs .hsl-attr.free-run,
 .hsl-prod-attrs .hsl-attr.frozen,
 .hsl-prod-attrs .hsl-attr.gluten-free,
-.hsl-prod-attrs .hsl-attr.organic{
+.hsl-prod-attrs .hsl-attr.organic,
+.hsl-prod-attrs .hsl-attr.omega-3
+{
 	background-color: transparent;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -256,6 +258,9 @@ p.no-margin-bottom,
 }
 .hsl-prod-attrs .hsl-attr.organic {
 	background-image: url('assets/img/organic.svg');
+}
+.hsl-prod-attrs .hsl-attr.omega-3 {
+	background-image: url('assets/img/omega-3.svg');
 }
 .hsl-egg-size-attr {
 	color: #fff;
