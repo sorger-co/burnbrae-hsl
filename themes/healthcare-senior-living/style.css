@@ -1786,3 +1786,7 @@ p.no-margin-bottom,
 		justify-content: center;
 	}
 }
+
+.elementor-social-icons-wrapper .elementor-grid-item {
+    min-width: auto;
+}
