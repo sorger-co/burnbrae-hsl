@@ -1790,3 +1790,7 @@ p.no-margin-bottom,
 .elementor-social-icons-wrapper .elementor-grid-item {
     min-width: auto;
 }
+
+.icon-container {
+	min-height:139px;
+}
