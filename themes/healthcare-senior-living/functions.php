@@ -181,27 +181,3 @@ add_action('wp_ajax_nopriv_healthcare_filter_recipes', 'healthcare_filter_recipe
 
 
 
-/**
- * Add translation for "product" post type.
- 
-add_filter('pll_translated_post_type_rewrite_slugs', function($post_type_translated_slugs) {
-	// Add translation for "product" post type.
-	$post_type_translated_slugs = array(
-		'product' => array(
-			'fr' => array(
-				'has_archive' => true,
-				'rewrite' => array(
-					'slug' => 'produit',
-				),
-			),
-			'en' => array(
-				'has_archive' => true,
-				'rewrite' => array(
-					'slug' => 'product',
-				),
-			),
-		),
-	);
-	return $post_type_translated_slugs;
-});
-*/
