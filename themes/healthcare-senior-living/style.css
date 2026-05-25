@@ -1171,7 +1171,7 @@ p.no-margin-bottom,
 	#header-menu .eael-simple-menu li > a {
 		padding: 10px 0;
 	}
-	#header-menu #menu-main-menu {
+	#header-menu .eael-simple-menu {
 		padding: 0 20px 20px;
 		background-color: rgba(255, 255, 255, 0.85);
 		width: 145px;
