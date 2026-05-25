@@ -34,17 +34,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
           add_filter('get_the_archive_title', function($title) {
 
-            if ( is_category() || is_tag() || is_tax() ) {
+            if ( is_category() || is_tag() || is_tax() || is_post_type_archive() ) {
 
-              // Remove anything up to and including the colon and space
+              // Remove localized archive prefixes such as "Archives:", "Archives :", or "Archives&nbsp;:".
 
-              $title = preg_replace('/^[^:]+:\s*/', '', $title);
-
-            } elseif ( is_post_type_archive() ) {
-
-              // Remove 'Archives: ' from post type archives
-
-              $title = preg_replace('/^Archives:\s*/', '', $title);
+              $title = preg_replace('/^[^:]+(?::|&nbsp;:|\xC2\xA0:)\s*/u', '', $title);
 
             }
 
