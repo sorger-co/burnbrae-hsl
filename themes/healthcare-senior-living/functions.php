@@ -11,7 +11,13 @@ function hsl_enqueue_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'hsl_enqueue_scripts', 20 );
 
+function hsl_load_theme_textdomain() {
+	load_child_theme_textdomain( 'healthcare-senior-living', get_stylesheet_directory() . '/languages' );
+}
+add_action( 'after_setup_theme', 'hsl_load_theme_textdomain' );
+
 include(get_stylesheet_directory() . '/inc/woocommerce.php');
+include(get_stylesheet_directory() . '/inc/woocommerce-polylang.php');
 include(get_stylesheet_directory() . '/inc/recipes.php');
 
 /* Current Year Shortcode */
