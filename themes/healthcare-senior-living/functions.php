@@ -17,7 +17,8 @@ function hsl_load_theme_textdomain() {
 add_action( 'after_setup_theme', 'hsl_load_theme_textdomain' );
 
 include(get_stylesheet_directory() . '/inc/woocommerce.php');
-include(get_stylesheet_directory() . '/inc/woocommerce-polylang.php');
+include(get_stylesheet_directory() . '/inc/polylang-strings.php');
+include(get_stylesheet_directory() . '/inc/archive-grid.php');
 include(get_stylesheet_directory() . '/inc/recipes.php');
 
 /* Current Year Shortcode */
@@ -32,14 +33,17 @@ function healthcare_enqueue_loadmore_script() {
         global $wp_query;
         wp_enqueue_script('healthcare-load-more', get_stylesheet_directory_uri() . '/assets/load-more.js', array('jquery'), null, true);
         wp_enqueue_script('healthcare-filter-recipes', get_stylesheet_directory_uri() . '/assets/filter-recipes.js', array('jquery'), null, true);
-        wp_localize_script('healthcare-load-more', 'healthcare_ajax_loadmore', array(
+        $ajax_data = array(
             'ajax_url' => admin_url('admin-ajax.php'),
             'query_vars' => json_encode($wp_query->query)
-        ));
-        wp_localize_script('healthcare-filter-recipes', 'healthcare_ajax_loadmore', array(
-            'ajax_url' => admin_url('admin-ajax.php'),
-            'query_vars' => json_encode($wp_query->query)
-        ));
+        );
+        $i18n = array(
+            'loading' => hsl__( 'Loading...' ),
+        );
+        wp_localize_script('healthcare-load-more', 'healthcare_ajax_loadmore', $ajax_data);
+        wp_localize_script('healthcare-filter-recipes', 'healthcare_ajax_loadmore', $ajax_data);
+        wp_localize_script('healthcare-load-more', 'healthcare_i18n', $i18n);
+        wp_localize_script('healthcare-filter-recipes', 'healthcare_i18n', $i18n);
     }
 
     if (is_front_page() || is_home()) {
@@ -58,33 +62,7 @@ function healthcare_load_more_ajax_handler() {
     if ($archive_query->have_posts()) {
         while ($archive_query->have_posts()) {
             $archive_query->the_post();
-            // Duplicate the archive-grid-item markup from archive.php
-            $post_link = get_permalink();
-            $post_type_obj = get_post_type_object(get_post_type());
-            $post_type_label = $post_type_obj ? $post_type_obj->labels->singular_name : __('View', 'hello-elementor');
-            ?>
-            <article class="archive-grid-item">
-              <?php if ( has_post_thumbnail() ) : ?>
-                <a href="<?php echo esc_url($post_link); ?>" class="item-thumbnail-link">
-                  <?php the_post_thumbnail('large'); ?>
-                  <?php
-                  if ( is_post_type_archive('recipe') || (is_tax() && get_queried_object() && get_queried_object()->taxonomy && in_array(get_queried_object()->taxonomy, array('meal_type','product_family','recipe_attribute'))) ) : ?>
-                    <div class="healthcare-formulated"></div>
-                  <?php endif; ?>
-                </a>
-              <?php endif; ?>
-              <div class="item-details">
-                <h2 class="entry-title">
-                  <a href="<?php echo esc_url($post_link); ?>">
-                    <?php echo wp_kses_post(get_the_title()); ?>
-                  </a>
-                </h2>
-                <a href="<?php echo esc_url($post_link); ?>" class="elementor-button elementor-button-link elementor-size-sm archive-view-btn">
-                  <?php echo esc_html__('View ', 'hello-elementor') . esc_html($post_type_label); ?>
-                </a>
-              </div>
-            </article>
-            <?php
+            hsl_render_archive_grid_item();
         }
     }
     wp_reset_postdata();
@@ -118,32 +96,7 @@ function healthcare_filter_recipes_ajax_handler() {
     if ($archive_query->have_posts()) {
         while ($archive_query->have_posts()) {
             $archive_query->the_post();
-            $post_link = get_permalink();
-            $post_type_obj = get_post_type_object(get_post_type());
-            $post_type_label = $post_type_obj ? $post_type_obj->labels->singular_name : __('View', 'hello-elementor');
-            ?>
-            <article class="archive-grid-item">
-              <?php if ( has_post_thumbnail() ) : ?>
-                <a href="<?php echo esc_url($post_link); ?>" class="item-thumbnail-link">
-                  <?php the_post_thumbnail('large'); ?>
-                  <?php
-                  if ( is_post_type_archive('recipe') || (is_tax() && get_queried_object() && get_queried_object()->taxonomy && in_array(get_queried_object()->taxonomy, array('meal_type','product_family','recipe_attribute'))) ) : ?>
-                    <div class="healthcare-formulated"></div>
-                  <?php endif; ?>
-                </a>
-              <?php endif; ?>
-              <div class="item-details">
-                <h2 class="entry-title">
-                  <a href="<?php echo esc_url($post_link); ?>">
-                    <?php echo wp_kses_post(get_the_title()); ?>
-                  </a>
-                </h2>
-                <a href="<?php echo esc_url($post_link); ?>" class="elementor-button elementor-button-link elementor-size-sm archive-view-btn">
-                  <?php echo esc_html__('View ', 'hello-elementor') . esc_html($post_type_label); ?>
-                </a>
-              </div>
-            </article>
-            <?php
+            hsl_render_archive_grid_item();
         }
     }
     wp_reset_postdata();

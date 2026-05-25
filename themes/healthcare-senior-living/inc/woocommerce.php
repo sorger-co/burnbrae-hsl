@@ -163,7 +163,7 @@ function display_egg_size_attributes_on_loop() {
  */
 add_filter( 'woocommerce_product_add_to_cart_text', 'woo_archive_page_cart_button_custom_text' );
 function woo_archive_page_cart_button_custom_text() {
-    return __( 'View Product', 'woocommerce' );
+    return hsl__( 'View Product' );
 }
 
 /**

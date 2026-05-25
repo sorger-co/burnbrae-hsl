@@ -40,7 +40,7 @@ while ( have_posts() ) :
 				
 			}
 			?>	
-			<div><a href="<?php echo get_site_url(); ?>/recipes/" class="elementor-button elementor-button-link elementor-size-sm">See all recipes</a></div>
+			<div><a href="<?php echo esc_url( get_post_type_archive_link( 'recipe' ) ); ?>" class="elementor-button elementor-button-link elementor-size-sm"><?php echo hsl_esc_html__( 'See all recipes' ); ?></a></div>
 		</div>
 	</div>
 	<div class="page-content">
@@ -48,7 +48,7 @@ while ( have_posts() ) :
 		$ingredients = get_post_meta( get_the_ID(), 'recipe_ingredients', true );
 		if ( ! empty( $ingredients ) && is_array( $ingredients ) ) {
 			echo '<div class="recipe-ingredients"><div class="container">';
-			echo '<h2>Ingredients</h2><div class="recipe-ingredients-list">';
+			echo '<h2>' . hsl_esc_html__( 'Ingredients' ) . '</h2><div class="recipe-ingredients-list">';
 			foreach ( $ingredients as $item ) {
 				if ( ! empty( $item['title'] ) && ! empty( $item['value'] ) ) {
 					echo '<div class="recipe-ingredient-item">';
@@ -63,7 +63,7 @@ while ( have_posts() ) :
 		<?php 
 		if( get_post()->post_content !== '' ) {
 			echo '<div class="recipe-directions"><div class="container">';
-			echo '<h2>Directions</h2>';
+			echo '<h2>' . hsl_esc_html__( 'Directions' ) . '</h2>';
 			the_content();
 			echo '</div></div>';
 		}
@@ -72,7 +72,7 @@ while ( have_posts() ) :
 		$nutrients_title = get_post_meta( get_the_ID(), 'recipe_nutrients_title', true );
 		$nutrients = get_post_meta( get_the_ID(), 'recipe_nutrients', true );
 		if ( ! empty( $nutrients ) && is_array( $nutrients ) ) {
-			$display_title = $nutrients_title ? esc_html( $nutrients_title ) : __( 'Nutrients', 'bbf-hsl' );
+			$display_title = $nutrients_title ? esc_html( $nutrients_title ) : hsl_esc_html__( 'Nutrients' );
 			echo '<div class="recipe-nutrients"><div class="container">';
 			echo '<h2>' . $display_title . '</h2><div class="recipe-nutrients-list">';
 			$col = 0;
@@ -115,7 +115,7 @@ while ( have_posts() ) :
 		<?php wp_link_pages(); ?>
 		<?php if ( has_tag() ) : ?>
 		<div class="post-tags">
-			<?php the_tags( '<span class="tag-links">' . esc_html__( 'Tagged ', 'hello-elementor' ), ', ', '</span>' ); ?>
+			<?php the_tags( '<span class="tag-links">' . hsl_esc_html__( 'Tagged ' ), ', ', '</span>' ); ?>
 		</div>
 		<?php endif; ?>
 	</div>
@@ -135,7 +135,7 @@ while ( have_posts() ) :
 
 		<?php if ( has_tag() ) : ?>
 		<div class="post-tags">
-			<?php the_tags( '<span class="tag-links">' . esc_html__( 'Tagged ', 'hello-elementor' ), ', ', '</span>' ); ?>
+			<?php the_tags( '<span class="tag-links">' . hsl_esc_html__( 'Tagged ' ), ', ', '</span>' ); ?>
 		</div>
 		<?php endif; ?>
 	</div>
