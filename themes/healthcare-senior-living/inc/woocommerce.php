@@ -59,7 +59,7 @@ remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_pr
  */
 function hsl_open_loop_container() {
     $current_category = get_queried_object(); 
-    $current_category_parent = $current_category->parent;
+    $current_category_parent = ( $current_category instanceof WP_Term ) ? $current_category->parent : 0;
     $prod_loop_class = 'hsl-loop-container';
     if( is_product_category(19) || $current_category_parent == 19 ){
         $prod_loop_class .=' shell-eggs';
@@ -82,7 +82,7 @@ add_action( 'woocommerce_after_main_content', 'hsl_close_loop_container', 1);
  */
 function hsl_after_loop_container() {
     $current_category = get_queried_object(); 
-    $current_category_parent = $current_category->parent;
+    $current_category_parent = ( $current_category instanceof WP_Term ) ? $current_category->parent : 0;
     if( is_product_category(19) || $current_category_parent == 19 ) {
         echo do_shortcode( '[INSERT_ELEMENTOR id="2100"]' );
     } else if (!is_product())  {
@@ -362,3 +362,76 @@ add_filter( 'woocommerce_get_catalog_ordering_args', function( $args ) {
 add_filter( 'woocommerce_default_catalog_orderby', function() {
     return 'menu_order';
 });
+
+/**
+ * Translate the WooCommerce product permalink base for French product URLs.
+ *
+ * WooCommerce stores one global product base in Settings > Permalinks. Polylang for
+ * WooCommerce does not expose a slug translation field on this site, so we swap the
+ * generated frontend URL and register a matching rewrite rule for French.
+ */
+function hsl_get_french_product_base() {
+    return 'nos-produits';
+}
+
+function hsl_get_default_product_base() {
+    if ( function_exists( 'wc_get_permalink_structure' ) ) {
+        $permalinks = wc_get_permalink_structure();
+        if ( ! empty( $permalinks['product_rewrite_slug'] ) ) {
+            $rewrite_slug = trim( str_replace( '/%product_cat%', '', $permalinks['product_rewrite_slug'] ), '/' );
+            if ( $rewrite_slug ) {
+                return $rewrite_slug;
+            }
+        }
+    }
+
+    return 'our-products';
+}
+
+function hsl_product_permalink_language( $post ) {
+    if ( function_exists( 'pll_get_post_language' ) ) {
+        $language = pll_get_post_language( $post->ID, 'slug' );
+        if ( $language ) {
+            return $language;
+        }
+    }
+
+    return function_exists( 'pll_current_language' ) ? pll_current_language( 'slug' ) : '';
+}
+
+function hsl_translate_french_product_permalink_base( $permalink, $post ) {
+    if ( ! $post instanceof WP_Post || $post->post_type !== 'product' ) {
+        return $permalink;
+    }
+
+    if ( hsl_product_permalink_language( $post ) !== 'fr' ) {
+        return $permalink;
+    }
+
+    $default_base = hsl_get_default_product_base();
+    $french_base = hsl_get_french_product_base();
+
+    return str_replace( '/' . $default_base . '/', '/' . $french_base . '/', $permalink );
+}
+add_filter( 'post_type_link', 'hsl_translate_french_product_permalink_base', 30, 2 );
+
+function hsl_add_french_product_rewrite_rules() {
+    add_rewrite_rule(
+        '^fr/' . hsl_get_french_product_base() . '/(?:.+/)?([^/]+)/?$',
+        'index.php?product=$matches[1]&lang=fr',
+        'top'
+    );
+}
+add_action( 'init', 'hsl_add_french_product_rewrite_rules', 20 );
+
+function hsl_flush_french_product_rewrite_rules() {
+    $version = '1';
+    if ( get_option( 'hsl_fr_product_base_rewrite_version' ) === $version ) {
+        return;
+    }
+
+    hsl_add_french_product_rewrite_rules();
+    flush_rewrite_rules();
+    update_option( 'hsl_fr_product_base_rewrite_version', $version );
+}
+add_action( 'admin_init', 'hsl_flush_french_product_rewrite_rules' );
