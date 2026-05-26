@@ -366,12 +366,13 @@ add_filter( 'woocommerce_default_catalog_orderby', function() {
 /**
  * Translate the WooCommerce product permalink base for French product URLs.
  *
- * WooCommerce stores one global product base in Settings > Permalinks. Polylang for
- * WooCommerce does not expose a slug translation field on this site, so we swap the
- * generated frontend URL and register a matching rewrite rule for French.
  */
 function hsl_get_french_product_base() {
     return 'nos-produits';
+}
+
+function hsl_get_french_product_category_base() {
+    return hsl_get_french_product_base() . '/categorie';
 }
 
 function hsl_get_default_product_base() {
@@ -386,6 +387,17 @@ function hsl_get_default_product_base() {
     }
 
     return 'our-products';
+}
+
+function hsl_get_default_product_category_base() {
+    if ( function_exists( 'wc_get_permalink_structure' ) ) {
+        $permalinks = wc_get_permalink_structure();
+        if ( ! empty( $permalinks['category_rewrite_slug'] ) ) {
+            return trim( $permalinks['category_rewrite_slug'], '/' );
+        }
+    }
+
+    return hsl_get_default_product_base() . '/category';
 }
 
 function hsl_product_permalink_language( $post ) {
@@ -415,7 +427,29 @@ function hsl_translate_french_product_permalink_base( $permalink, $post ) {
 }
 add_filter( 'post_type_link', 'hsl_translate_french_product_permalink_base', 30, 2 );
 
+function hsl_translate_french_product_category_link( $termlink, $term, $taxonomy ) {
+    if ( $taxonomy !== 'product_cat' || ! $term instanceof WP_Term ) {
+        return $termlink;
+    }
+
+    if ( function_exists( 'pll_get_term_language' ) && pll_get_term_language( $term->term_id, 'slug' ) !== 'fr' ) {
+        return $termlink;
+    }
+
+    $default_base = hsl_get_default_product_category_base();
+    $french_base = hsl_get_french_product_category_base();
+
+    return str_replace( '/' . $default_base . '/', '/' . $french_base . '/', $termlink );
+}
+add_filter( 'term_link', 'hsl_translate_french_product_category_link', 30, 3 );
+
 function hsl_add_french_product_rewrite_rules() {
+    add_rewrite_rule(
+        '^fr/' . hsl_get_french_product_category_base() . '/(.+?)/?$',
+        'index.php?product_cat=$matches[1]&lang=fr',
+        'top'
+    );
+
     add_rewrite_rule(
         '^fr/' . hsl_get_french_product_base() . '/(?:.+/)?([^/]+)/?$',
         'index.php?product=$matches[1]&lang=fr',
@@ -424,8 +458,31 @@ function hsl_add_french_product_rewrite_rules() {
 }
 add_action( 'init', 'hsl_add_french_product_rewrite_rules', 20 );
 
+function hsl_redirect_old_french_product_category_base() {
+    if ( is_admin() || ! is_product_category() || ! function_exists( 'pll_current_language' ) || pll_current_language( 'slug' ) !== 'fr' ) {
+        return;
+    }
+
+    $request_path = trim( (string) wp_parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' );
+    $old_base = 'fr/' . hsl_get_default_product_category_base();
+
+    if ( strpos( $request_path, $old_base . '/' ) !== 0 ) {
+        return;
+    }
+
+    $redirect_path = preg_replace(
+        '#^' . preg_quote( $old_base, '#' ) . '#',
+        'fr/' . hsl_get_french_product_category_base(),
+        $request_path
+    );
+
+    wp_safe_redirect( home_url( '/' . $redirect_path . '/' ), 301 );
+    exit;
+}
+add_action( 'template_redirect', 'hsl_redirect_old_french_product_category_base' );
+
 function hsl_flush_french_product_rewrite_rules() {
-    $version = '1';
+    $version = '2';
     if ( get_option( 'hsl_fr_product_base_rewrite_version' ) === $version ) {
         return;
     }
