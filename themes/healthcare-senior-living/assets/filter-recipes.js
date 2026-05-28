@@ -65,7 +65,7 @@ jQuery(document).ready(function ($) {
 				resetUnavailableFilters();
 			},
 			success: function (res) {
-				if (res.success && res.data.html) {
+				if (res.success && res.data && typeof res.data.html !== 'undefined') {
 					$('.archive-grid').html(res.data.html);
 					// If there are more pages, show load more and reset its state
 					if (res.data.has_more) {

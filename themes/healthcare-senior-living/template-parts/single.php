@@ -95,9 +95,21 @@ while ( have_posts() ) :
 		?>
 		<?php
 		$featured_products = get_post_meta( get_the_ID(), 'recipe_featured_products', true );
+		if ( empty( $featured_products ) && function_exists( 'pll_default_language' ) && function_exists( 'pll_get_post' ) ) {
+			$default_recipe_id = pll_get_post( get_the_ID(), pll_default_language( 'slug' ) );
+			if ( $default_recipe_id && $default_recipe_id !== get_the_ID() ) {
+				$featured_products = get_post_meta( $default_recipe_id, 'recipe_featured_products', true );
+			}
+		}
 		if ( ! empty( $featured_products ) && is_array( $featured_products ) ) {
 			echo '<div class="recipe-featured-products"><div class="container"><ul class="products-list">';
 			foreach ( $featured_products as $product_id ) {
+				if ( function_exists( 'pll_current_language' ) && function_exists( 'pll_get_post' ) ) {
+					$translated_product_id = pll_get_post( $product_id, pll_current_language( 'slug' ) );
+					if ( $translated_product_id ) {
+						$product_id = $translated_product_id;
+					}
+				}
 				$product = wc_get_product( $product_id );
 				if ( $product && $product->get_type() ) {
 					global $post;

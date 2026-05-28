@@ -46,7 +46,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
           });
 
-          the_archive_title( '<h1 class="entry-title">', '</h1>' ); 
+          if ( is_post_type_archive( 'recipe' ) ) {
+            echo '<h1 class="entry-title"><span>' . hsl_esc_html__( 'Recipes' ) . '</span></h1>';
+          } else {
+            the_archive_title( '<h1 class="entry-title">', '</h1>' );
+          }
 
         
 
@@ -63,21 +67,14 @@ if ( ! defined( 'ABSPATH' ) ) {
             <?php
 
             $taxonomies = [
-
               'meal_type' => hsl__( 'Meal Type' ),
-
               'product_family' => hsl__( 'Product Family' ),
-
               'recipe_attribute' => hsl__( 'Attributes' ),
-
             ];
 
             foreach ($taxonomies as $tax => $label) :
-
               $terms = get_terms([
-
                 'taxonomy' => $tax,
-
                 'hide_empty' => false
 
               ]);

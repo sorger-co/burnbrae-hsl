@@ -31,8 +31,8 @@ add_shortcode('year', 'current_year_shortcode');
 function healthcare_enqueue_loadmore_script() {
     if (is_archive()) {
         global $wp_query;
-        wp_enqueue_script('healthcare-load-more', get_stylesheet_directory_uri() . '/assets/load-more.js', array('jquery'), null, true);
-        wp_enqueue_script('healthcare-filter-recipes', get_stylesheet_directory_uri() . '/assets/filter-recipes.js', array('jquery'), null, true);
+        wp_enqueue_script('healthcare-load-more', get_stylesheet_directory_uri() . '/assets/load-more.js', array('jquery'), filemtime( get_stylesheet_directory() . '/assets/load-more.js' ), true);
+        wp_enqueue_script('healthcare-filter-recipes', get_stylesheet_directory_uri() . '/assets/filter-recipes.js', array('jquery'), filemtime( get_stylesheet_directory() . '/assets/filter-recipes.js' ), true);
         $ajax_data = array(
             'ajax_url' => admin_url('admin-ajax.php'),
             'query_vars' => json_encode($wp_query->query)
@@ -47,7 +47,7 @@ function healthcare_enqueue_loadmore_script() {
     }
 
     if (is_front_page() || is_home()) {
-      wp_enqueue_script('bbf-slider-autoplay', get_stylesheet_directory_uri() . '/assets/bbf-slider-autoplay.js', array('jquery'), null, true);
+      wp_enqueue_script('bbf-slider-autoplay', get_stylesheet_directory_uri() . '/assets/bbf-slider-autoplay.js', array('jquery'), filemtime( get_stylesheet_directory() . '/assets/bbf-slider-autoplay.js' ), true);
     }
 }
 add_action('wp_enqueue_scripts', 'healthcare_enqueue_loadmore_script');
