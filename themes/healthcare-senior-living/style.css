@@ -287,6 +287,7 @@ p.no-margin-bottom,
 .hsl-egg-sizes {
 	margin: -5px -21px 0 0;
 }
+.hsl-egg-size-attr.g,
 .hsl-egg-size-attr.l {
 	background-color: #58aee1;
 }
