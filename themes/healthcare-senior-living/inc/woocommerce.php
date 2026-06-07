@@ -516,6 +516,29 @@ function hsl_redirect_old_french_recipe_product_family_base() {
 }
 add_action( 'template_redirect', 'hsl_redirect_old_french_recipe_product_family_base' );
 
+function hsl_redirect_mistranslated_english_recipe_product_family_base() {
+    if ( is_admin() || ( function_exists( 'pll_current_language' ) && pll_current_language( 'slug' ) === 'fr' ) ) {
+        return;
+    }
+
+    $request_path = trim( (string) wp_parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' );
+    $wrong_base = hsl_get_french_recipe_product_family_base();
+
+    if ( $request_path !== $wrong_base && strpos( $request_path, $wrong_base . '/' ) !== 0 ) {
+        return;
+    }
+
+    $redirect_path = preg_replace(
+        '#^' . preg_quote( $wrong_base, '#' ) . '#',
+        hsl_get_default_recipe_product_family_base(),
+        $request_path
+    );
+
+    wp_safe_redirect( home_url( '/' . trailingslashit( $redirect_path ) ), 301 );
+    exit;
+}
+add_action( 'template_redirect', 'hsl_redirect_mistranslated_english_recipe_product_family_base' );
+
 function hsl_replace_old_french_taxonomy_links_in_output() {
     if ( is_admin() || wp_doing_ajax() || ! function_exists( 'pll_current_language' ) || pll_current_language( 'slug' ) !== 'fr' ) {
         return;
@@ -525,17 +548,50 @@ function hsl_replace_old_french_taxonomy_links_in_output() {
         return str_replace(
             array(
                 home_url( '/fr/' . hsl_get_default_recipe_product_family_base() . '/' ),
+                home_url( '/fr/' . hsl_get_default_product_category_base() . '/' ),
+                home_url( '/' . hsl_get_french_product_category_base() . '/' ),
                 '/fr/' . hsl_get_default_recipe_product_family_base() . '/',
+                '/fr/' . hsl_get_default_product_category_base() . '/',
+                'href="/' . hsl_get_french_product_category_base() . '/',
+                "href='/" . hsl_get_french_product_category_base() . '/',
             ),
             array(
                 home_url( '/fr/' . hsl_get_french_recipe_product_family_base() . '/' ),
+                home_url( '/fr/' . hsl_get_french_product_category_base() . '/' ),
+                home_url( '/' . hsl_get_default_product_category_base() . '/' ),
                 '/fr/' . hsl_get_french_recipe_product_family_base() . '/',
+                '/fr/' . hsl_get_french_product_category_base() . '/',
+                'href="/' . hsl_get_default_product_category_base() . '/',
+                "href='/" . hsl_get_default_product_category_base() . '/',
             ),
             $html
         );
     } );
 }
 add_action( 'template_redirect', 'hsl_replace_old_french_taxonomy_links_in_output', 20 );
+
+function hsl_redirect_mistranslated_english_product_category_base() {
+    if ( is_admin() || ( function_exists( 'pll_current_language' ) && pll_current_language( 'slug' ) === 'fr' ) ) {
+        return;
+    }
+
+    $request_path = trim( (string) wp_parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' );
+    $wrong_base = hsl_get_french_product_category_base();
+
+    if ( $request_path !== $wrong_base && strpos( $request_path, $wrong_base . '/' ) !== 0 ) {
+        return;
+    }
+
+    $redirect_path = preg_replace(
+        '#^' . preg_quote( $wrong_base, '#' ) . '#',
+        hsl_get_default_product_category_base(),
+        $request_path
+    );
+
+    wp_safe_redirect( home_url( '/' . trailingslashit( $redirect_path ) ), 301 );
+    exit;
+}
+add_action( 'template_redirect', 'hsl_redirect_mistranslated_english_product_category_base' );
 
 function hsl_redirect_old_french_product_category_base() {
     if ( is_admin() || ! is_product_category() || ! function_exists( 'pll_current_language' ) || pll_current_language( 'slug' ) !== 'fr' ) {
@@ -559,6 +615,68 @@ function hsl_redirect_old_french_product_category_base() {
     exit;
 }
 add_action( 'template_redirect', 'hsl_redirect_old_french_product_category_base' );
+
+function hsl_fix_taxonomy_language_switcher_home_fallback() {
+    if ( is_admin() || wp_doing_ajax() || ! function_exists( 'pll_current_language' ) || ! function_exists( 'pll_get_term' ) ) {
+        return;
+    }
+
+    if ( ! is_tax( array( 'product_cat', 'product_family', 'meal_type', 'recipe_attribute' ) ) ) {
+        return;
+    }
+
+    $term = get_queried_object();
+    if ( ! $term instanceof WP_Term ) {
+        return;
+    }
+
+    $request_path = trim( (string) wp_parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' );
+    $current_language = strpos( $request_path, 'fr/' ) === 0 ? 'fr' : pll_current_language( 'slug' );
+    $target_language = $current_language === 'fr' ? 'en' : 'fr';
+    $translated_term_id = pll_get_term( $term->term_id, $target_language );
+    if ( ! $translated_term_id ) {
+        return;
+    }
+
+    $target_link = get_term_link( (int) $translated_term_id, $term->taxonomy );
+    if ( is_wp_error( $target_link ) ) {
+        return;
+    }
+    if ( $target_language === 'en' ) {
+        $target_link = str_replace(
+            array(
+                '/' . hsl_get_french_product_category_base() . '/',
+                '/' . hsl_get_french_recipe_product_family_base() . '/',
+            ),
+            array(
+                '/' . hsl_get_default_product_category_base() . '/',
+                '/' . hsl_get_default_recipe_product_family_base() . '/',
+            ),
+            $target_link
+        );
+    }
+
+    $fallback_link = untrailingslashit( $target_language === 'fr' ? home_url( '/fr/home-fr/' ) : home_url( '/' ) );
+    $switcher_label = $target_language === 'fr' ? 'Français' : 'English';
+
+    ob_start( function( $html ) use ( $fallback_link, $target_link, $switcher_label ) {
+        $pattern = '#<a\b([^>]*\bhref=["\'])' . preg_quote( $fallback_link, '#' ) . '/?(["\'][^>]*)>\s*' . preg_quote( $switcher_label, '#' ) . '\s*</a>#i';
+        return preg_replace( $pattern, '<a$1' . esc_url( $target_link ) . '$2>' . esc_html( $switcher_label ) . '</a>', $html );
+    } );
+
+    add_action( 'wp_footer', function() use ( $target_link, $switcher_label ) {
+        ?>
+        <script>
+        document.querySelectorAll('a').forEach(function(link) {
+            if (link.textContent.trim() === <?php echo wp_json_encode( $switcher_label ); ?>) {
+                link.href = <?php echo wp_json_encode( esc_url( $target_link ) ); ?>;
+            }
+        });
+        </script>
+        <?php
+    }, 99 );
+}
+add_action( 'template_redirect', 'hsl_fix_taxonomy_language_switcher_home_fallback', 25 );
 
 function hsl_flush_french_product_rewrite_rules() {
     $version = '3';

@@ -781,7 +781,7 @@ function hsl_redirect_mistranslated_english_recipe_base() {
 add_action( 'template_redirect', 'hsl_redirect_mistranslated_english_recipe_base' );
 
 function hsl_replace_old_french_recipe_archive_links_in_output() {
-    if ( is_admin() || wp_doing_ajax() || ! function_exists( 'pll_current_language' ) || pll_current_language( 'slug' ) !== 'fr' ) {
+    if ( is_admin() || wp_doing_ajax() ) {
         return;
     }
 
