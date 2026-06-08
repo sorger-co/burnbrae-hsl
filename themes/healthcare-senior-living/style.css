@@ -245,24 +245,27 @@ p.no-margin-bottom,
 	background-position: center;
 	background-size: cover;
 }
+.hsl-prod-attrs .hsl-attr.sans-gras,
 .hsl-prod-attrs .hsl-attr.fat-free {
 	background-image: url('assets/img/fat-free.svg');
 }
+.hsl-prod-attrs .hsl-attr.poules-en-liberte,
 .hsl-prod-attrs .hsl-attr.free-run {
 	background-image: url('assets/img/free-run.svg');
 }
+.hsl-prod-attrs .hsl-attr.congeles,
 .hsl-prod-attrs .hsl-attr.frozen {
 	background-image: url('assets/img/frozen.svg');
 }
+.hsl-prod-attrs .hsl-attr.sans-gluten,
 .hsl-prod-attrs .hsl-attr.gluten-free {
 	background-image: url('assets/img/gluten-free.svg');
 }
+.hsl-prod-attrs .hsl-attr.biologiques,
 .hsl-prod-attrs .hsl-attr.organic {
 	background-image: url('assets/img/organic.svg');
 }
-.hsl-prod-attrs .hsl-attr.omega-3 {
-	background-image: url('assets/img/omega-3.svg');
-}
+.hsl-prod-attrs .hsl-attr.omega-3,
 .hsl-prod-attrs .hsl-attr.omega3 {
 	background-image: url('assets/img/omega-3.svg');
 }
