@@ -48,6 +48,51 @@ add_action( 'woocommerce_after_shop_loop_item_title', 'hsl_display_short_descipt
 remove_action( 'woocommerce_before_shop_loop_item', 'woocommerce_template_loop_product_link_open', 10 );
 remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_product_link_close', 5 );
 
+function hsl_get_product_cat_translation_ids( $term_id ) {
+    $term_ids = array( (int) $term_id );
+
+    if ( function_exists( 'pll_get_term' ) ) {
+        if ( function_exists( 'pll_languages_list' ) ) {
+            foreach ( pll_languages_list( array( 'fields' => 'slug' ) ) as $language ) {
+                $translated_term_id = pll_get_term( $term_id, $language );
+                if ( $translated_term_id ) {
+                    $term_ids[] = (int) $translated_term_id;
+                }
+            }
+        } else {
+            foreach ( array( 'en', 'fr' ) as $language ) {
+                $translated_term_id = pll_get_term( $term_id, $language );
+                if ( $translated_term_id ) {
+                    $term_ids[] = (int) $translated_term_id;
+                }
+            }
+        }
+    }
+
+    return array_unique( array_filter( $term_ids ) );
+}
+
+function hsl_is_product_category_translation( $term, $term_id ) {
+    if ( ! $term instanceof WP_Term ) {
+        return false;
+    }
+
+    return in_array( (int) $term->term_id, hsl_get_product_cat_translation_ids( $term_id ), true );
+}
+
+function hsl_is_current_product_category_translation( $term_id ) {
+    return hsl_is_product_category_translation( get_queried_object(), $term_id );
+}
+
+function hsl_current_product_category_parent_is_translation( $term_id ) {
+    $term = get_queried_object();
+    if ( ! $term instanceof WP_Term ) {
+        return false;
+    }
+
+    return in_array( (int) $term->parent, hsl_get_product_cat_translation_ids( $term_id ), true );
+}
+
 /**
  * Link title in loop
  */
@@ -58,20 +103,18 @@ remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_pr
  * Add loop container
  */
 function hsl_open_loop_container() {
-    $current_category = get_queried_object(); 
-    $current_category_parent = ( $current_category instanceof WP_Term ) ? $current_category->parent : 0;
     $prod_loop_class = 'hsl-loop-container';
-    if( is_product_category(19) || $current_category_parent == 19 ){
+    if( hsl_is_current_product_category_translation( 19 ) || hsl_current_product_category_parent_is_translation( 19 ) ){
         $prod_loop_class .=' shell-eggs';
     }
-    if ( !is_product_category(19)) {
+    if ( ! hsl_is_current_product_category_translation( 19 ) ) {
         echo '<div class="'.$prod_loop_class.'">';
     }
 }
 add_action( 'woocommerce_before_shop_loop', 'hsl_open_loop_container', 9 );
 
 function hsl_close_loop_container() {
-    if ( !is_product_category(19)) {
+    if ( ! hsl_is_current_product_category_translation( 19 ) ) {
         echo '</div>';
     }
 }
@@ -81,9 +124,7 @@ add_action( 'woocommerce_after_main_content', 'hsl_close_loop_container', 1);
  * Add loop after header container
  */
 function hsl_after_loop_container() {
-    $current_category = get_queried_object(); 
-    $current_category_parent = ( $current_category instanceof WP_Term ) ? $current_category->parent : 0;
-    if( is_product_category(19) || $current_category_parent == 19 ) {
+    if( hsl_is_current_product_category_translation( 19 ) || hsl_current_product_category_parent_is_translation( 19 ) ) {
         echo do_shortcode( '[INSERT_ELEMENTOR id="2100"]' );
     } else if (!is_product())  {
         echo do_shortcode( '[INSERT_ELEMENTOR id="2083"]' );
