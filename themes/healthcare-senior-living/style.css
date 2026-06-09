@@ -232,14 +232,20 @@ p.no-margin-bottom,
 	border-radius: 50%;
 	background-color: var(--e-global-color-e2dadd4);
 }
+.hsl-prod-attrs .hsl-attr.sans-gras,
+.hsl-prod-attrs .hsl-attr.poules-en-liberté,
+.hsl-prod-attrs .hsl-attr.congeles,
+.hsl-prod-attrs .hsl-attr.sans-gluten,
+.hsl-prod-attrs .hsl-attr.biologiques,
+.hsl-prod-attrs .hsl-attr.sans-gluten,
+.hsl-prod-attrs .hsl-attr.biologiques,
 .hsl-prod-attrs .hsl-attr.fat-free,
 .hsl-prod-attrs .hsl-attr.free-run,
 .hsl-prod-attrs .hsl-attr.frozen,
 .hsl-prod-attrs .hsl-attr.gluten-free,
 .hsl-prod-attrs .hsl-attr.organic,
 .hsl-prod-attrs .hsl-attr.omega-3,
-.hsl-prod-attrs .hsl-attr.omega3
-{
+.hsl-prod-attrs .hsl-attr.omega3{
 	background-color: transparent;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -252,11 +258,6 @@ p.no-margin-bottom,
 .hsl-prod-attrs .hsl-attr.poules-en-liberté,
 .hsl-prod-attrs .hsl-attr.free-run {
 	background-image: url('assets/img/free-run.svg');
-}
-.hsl-prod-attrs .hsl-attr.poules-en-liberté{
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: cover;
 }
 .hsl-prod-attrs .hsl-attr.congeles,
 .hsl-prod-attrs .hsl-attr.frozen {
@@ -274,6 +275,8 @@ p.no-margin-bottom,
 .hsl-prod-attrs .hsl-attr.omega3 {
 	background-image: url('assets/img/omega-3.svg');
 }
+
+
 .hsl-egg-size-attr {
 	color: #fff;
 	font-size: 20px;
