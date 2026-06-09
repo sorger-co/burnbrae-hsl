@@ -234,7 +234,7 @@ p.no-margin-bottom,
 }
 .hsl-prod-attrs .hsl-attr.sans-gras,
 .hsl-prod-attrs .hsl-attr.poules-en-liberté,
-.hsl-prod-attrs .hsl-attr.congeles,
+.hsl-prod-attrs .hsl-attr.congelés,
 .hsl-prod-attrs .hsl-attr.sans-gluten,
 .hsl-prod-attrs .hsl-attr.biologiques,
 .hsl-prod-attrs .hsl-attr.sans-gluten,
@@ -244,7 +244,7 @@ p.no-margin-bottom,
 .hsl-prod-attrs .hsl-attr.frozen,
 .hsl-prod-attrs .hsl-attr.gluten-free,
 .hsl-prod-attrs .hsl-attr.organic,
-.hsl-prod-attrs .hsl-attr.omega-3,
+.hsl-prod-attrs .hsl-attr.oméga-3,
 .hsl-prod-attrs .hsl-attr.omega3{
 	background-color: transparent;
 	background-repeat: no-repeat;
@@ -259,7 +259,7 @@ p.no-margin-bottom,
 .hsl-prod-attrs .hsl-attr.free-run {
 	background-image: url('assets/img/free-run.svg');
 }
-.hsl-prod-attrs .hsl-attr.congeles,
+.hsl-prod-attrs .hsl-attr.congelés,
 .hsl-prod-attrs .hsl-attr.frozen {
 	background-image: url('assets/img/frozen.svg');
 }
@@ -271,7 +271,7 @@ p.no-margin-bottom,
 .hsl-prod-attrs .hsl-attr.organic {
 	background-image: url('assets/img/organic.svg');
 }
-.hsl-prod-attrs .hsl-attr.omega-3,
+.hsl-prod-attrs .hsl-attr.oméga-3,
 .hsl-prod-attrs .hsl-attr.omega3 {
 	background-image: url('assets/img/omega-3.svg');
 }
