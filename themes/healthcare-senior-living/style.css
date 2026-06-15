@@ -349,6 +349,10 @@ p.no-margin-bottom,
 }
 
 /* Shell Eggs Subcategories Loop */
+.tax-product_cat.term-omega-3 .hsl-loop-header,
+.tax-product_cat.term-reguliers .hsl-loop-header,
+.tax-product_cat.term-poules-en-liberte .hsl-loop-header,
+.tax-product_cat.term-biologiques .hsl-loop-header,
 .tax-product_cat.term-regular-shell-eggs .hsl-loop-header,
 .tax-product_cat.term-omega-3-shell-eggs .hsl-loop-header,
 .tax-product_cat.term-free-run-shell-eggs .hsl-loop-header,
@@ -356,6 +360,10 @@ p.no-margin-bottom,
 	background-color: #fff;
 	gap: 28px;
 }
+.tax-product_cat.term-omega-3 .hsl-loop-header .hsl-loop-header_image,
+.tax-product_cat.term-reguliers .hsl-loop-header .hsl-loop-header_image,
+.tax-product_cat.term-poules-en-liberte .hsl-loop-header .hsl-loop-header_image,
+.tax-product_cat.term-biologiques .hsl-loop-header .hsl-loop-header_image,
 .tax-product_cat.term-regular-shell-eggs
 	.hsl-loop-header
 	.hsl-loop-header_image,
@@ -370,6 +378,10 @@ p.no-margin-bottom,
 	.hsl-loop-header_image {
 	grid-column: 1;
 }
+.tax-product_cat.term-omega-3 .hsl-loop-header .hsl-loop-header___content,
+.tax-product_cat.term-reguliers .hsl-loop-header .hsl-loop-header___content,
+.tax-product_cat.term-poules-en-liberte .hsl-loop-header .hsl-loop-header___content,
+.tax-product_cat.term-biologiques .hsl-loop-header .hsl-loop-header___content,
 .tax-product_cat.term-regular-shell-eggs
 	.hsl-loop-header
 	.hsl-loop-header___content,
@@ -385,6 +397,11 @@ p.no-margin-bottom,
 	grid-column: 2;
 	padding: 50px 290px 50px 30px;
 }
+
+.tax-product_cat.term-omega-3 .hsl-loop-header .hsl-loop-header___content h1,
+.tax-product_cat.term-reguliers .hsl-loop-header .hsl-loop-header___content h1,
+.tax-product_cat.term-poules-en-liberte .hsl-loop-header .hsl-loop-header___content h1,
+.tax-product_cat.term-biologiques .hsl-loop-header .hsl-loop-header___content h1,
 .tax-product_cat.term-regular-shell-eggs
 	.hsl-loop-header
 	.hsl-loop-header___content
@@ -404,6 +421,10 @@ p.no-margin-bottom,
 	max-width: 270px;
 	position: relative;
 }
+.tax-product_cat.term-omega-3 .hsl-loop-header .hsl-loop-header___content h1:after,
+.tax-product_cat.term-reguliers .hsl-loop-header .hsl-loop-header___content h1:after,
+.tax-product_cat.term-poules-en-liberte .hsl-loop-header .hsl-loop-header___content h1:after,
+.tax-product_cat.term-biologiques .hsl-loop-header .hsl-loop-header___content h1:after,
 .tax-product_cat.term-regular-shell-eggs
 	.hsl-loop-header
 	.hsl-loop-header___content
@@ -431,30 +452,38 @@ p.no-margin-bottom,
 	background-position: center;
 	background-size: cover;
 }
+.tax-product_cat.term-reguliers .hsl-loop-header .hsl-loop-header___content h1:after,
 .tax-product_cat.term-regular-shell-eggs
 	.hsl-loop-header
 	.hsl-loop-header___content
 	h1:after {
 	background-image: url('assets/img/regular.svg');
 }
+.tax-product_cat.term-omega-3 .hsl-loop-header .hsl-loop-header___content h1:after,
 .tax-product_cat.term-omega-3-shell-eggs
 	.hsl-loop-header
 	.hsl-loop-header___content
 	h1:after {
 	background-image: url('assets/img/omega-3.svg');
 }
+.tax-product_cat.term-poules-en-liberte .hsl-loop-header .hsl-loop-header___content h1:after,
 .tax-product_cat.tax-product_cat.term-free-run-shell-eggs
 	.hsl-loop-header
 	.hsl-loop-header___content
 	h1:after {
 	background-image: url('assets/img/free-run.svg');
 }
+.tax-product_cat.term-biologiques .hsl-loop-header .hsl-loop-header___content h1:after,
 .tax-product_cat.tax-product_cat.term-organic-shell-eggs
 	.hsl-loop-header
 	.hsl-loop-header___content
 	h1:after {
 	background-image: url('assets/img/organic.svg');
 }
+.tax-product_cat.term-omega-3 .hsl-loop-header .hsl-loop-header_image,
+.tax-product_cat.term-reguliers .hsl-loop-header .hsl-loop-header_image,
+.tax-product_cat.term-poules-en-liberte .hsl-loop-header .hsl-loop-header_image,
+.tax-product_cat.term-biologiques .hsl-loop-header .hsl-loop-header_image,
 .tax-product_cat.term-regular-shell-eggs
 	.hsl-loop-header
 	.hsl-loop-header_image,
@@ -476,6 +505,10 @@ p.no-margin-bottom,
 	min-height: unset;
 }
 
+.tax-product_cat.term-omega-3 .hsl-loop-header .hsl-loop-header_image img,
+.tax-product_cat.term-reguliers .hsl-loop-header .hsl-loop-header_image img,
+.tax-product_cat.term-poules-en-liberte .hsl-loop-header .hsl-loop-header_image img,
+.tax-product_cat.term-biologiques .hsl-loop-header .hsl-loop-header_image img,
 .tax-product_cat.term-regular-shell-eggs
 	.hsl-loop-header
 	.hsl-loop-header_image
