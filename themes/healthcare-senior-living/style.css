@@ -1861,13 +1861,9 @@ p.no-margin-bottom,
     min-width: auto;
 }
 
-/* Prevent Slick Slider from leaving a white gap below when slides have unequal heights */
-.bbf-slider .wpr-advanced-slider .slick-track {
-    display: flex;
-    align-items: stretch;
-}
-.bbf-slider .wpr-advanced-slider .slick-slide {
-    height: auto;
+/* Disable adaptiveHeight's animated height transition to prevent the gap flash (min-height pinned via JS) */
+.bbf-slider .wpr-advanced-slider .slick-list {
+    transition: height 0s !important;
 }
 
 .icon-container {
