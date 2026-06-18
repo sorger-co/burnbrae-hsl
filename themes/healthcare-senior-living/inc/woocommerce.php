@@ -93,6 +93,22 @@ function hsl_current_product_category_parent_is_translation( $term_id ) {
     return in_array( (int) $term->parent, hsl_get_product_cat_translation_ids( $term_id ), true );
 }
 
+function hsl_product_has_product_category_translation( $product_id, $term_id ) {
+    $product_cats = get_the_terms( $product_id, 'product_cat' );
+    if ( empty( $product_cats ) || is_wp_error( $product_cats ) ) {
+        return false;
+    }
+
+    $term_ids = hsl_get_product_cat_translation_ids( $term_id );
+    foreach ( $product_cats as $cat ) {
+        if ( in_array( (int) $cat->term_id, $term_ids, true ) || in_array( (int) $cat->parent, $term_ids, true ) ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 /**
  * Link title in loop
  */
