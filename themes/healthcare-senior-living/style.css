@@ -1861,6 +1861,15 @@ p.no-margin-bottom,
     min-width: auto;
 }
 
+/* Prevent Slick Slider from leaving a white gap below when slides have unequal heights */
+.bbf-slider .wpr-advanced-slider .slick-track {
+    display: flex;
+    align-items: stretch;
+}
+.bbf-slider .wpr-advanced-slider .slick-slide {
+    height: auto;
+}
+
 .icon-container {
 	min-height:139px;
 }
