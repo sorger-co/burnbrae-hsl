@@ -421,6 +421,34 @@ add_filter( 'woocommerce_default_catalog_orderby', function() {
 });
 
 /**
+ * Keep product images independent between Polylang translations.
+ *
+ * Polylang for WooCommerce includes the product image and gallery in its product
+ * meta copy list, which can overwrite translated product images even when
+ * Polylang synchronization is disabled in the UI.
+ */
+function hsl_exclude_product_image_metas_from_polylang_sync( $metas, $sync = false, $from = 0, $to = 0, $lang = '' ) {
+    if ( $from && ! in_array( get_post_type( $from ), array( 'product', 'product_variation' ), true ) ) {
+        return $metas;
+    }
+
+    $excluded_metas = array(
+        '_thumbnail_id',
+        '_product_image_gallery',
+    );
+
+    foreach ( $excluded_metas as $meta_key ) {
+        if ( is_array( $metas ) && array_key_exists( $meta_key, $metas ) ) {
+            unset( $metas[ $meta_key ] );
+        }
+    }
+
+    return array_diff( $metas, $excluded_metas );
+}
+add_filter( 'pll_copy_post_metas', 'hsl_exclude_product_image_metas_from_polylang_sync', 999, 5 );
+add_filter( 'pllwc_copy_post_metas', 'hsl_exclude_product_image_metas_from_polylang_sync', 999, 5 );
+
+/**
  * Translate the WooCommerce product permalink base for French product URLs.
  *
  */
