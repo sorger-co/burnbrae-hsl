@@ -1861,7 +1861,8 @@ p.no-margin-bottom,
     min-width: auto;
 }
 
-/* Disable adaptiveHeight's animated height transition to prevent the gap flash (min-height pinned via JS) */
+/* Prevent any CSS transition on slick-list height (JS pins height directly on container + list). */
+.bbf-slider .wpr-advanced-slider,
 .bbf-slider .wpr-advanced-slider .slick-list {
     transition: height 0s !important;
 }
