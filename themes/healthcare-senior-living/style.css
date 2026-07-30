@@ -775,6 +775,7 @@ p.no-margin-bottom,
 	align-items: center;
 }
 .archive-grid .archive-grid-item .item-thumbnail-link {
+	width: 100%;
 	position: relative;
 }
 .archive-grid .archive-grid-item .healthcare-formulated {
