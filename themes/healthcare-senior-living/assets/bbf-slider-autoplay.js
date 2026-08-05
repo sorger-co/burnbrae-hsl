@@ -1,56 +1,66 @@
-// bbf-slider-autoplay.js
-// This script enables auto-rotation for sliders with class 'bbf-slider' using Slick's API.
-// Requires jQuery and Slick Slider.
-
-// bbf-slider-autoplay.js
-// This script enables auto-rotation for sliders with class 'bbf-slider' using Slick's API.
-// Requires jQuery and Slick Slider.
-
 (function ($) {
-	// Wait for Elementor frontend and Slick to be ready
-	function initAutoplay() {
-		// Find all sliders inside .bbf-slider that are initialized with Slick
-		$('.bbf-slider .wpr-advanced-slider').each(function () {
-			var $slider = $(this);
-			// Only proceed if Slick is initialized
-			if (!$slider.hasClass('slick-initialized')) return;
+    function initAutoplay() {
+        $('.bbf-slider .wpr-advanced-slider').each(function () {
+            var $slider = $(this);
+            if (!$slider.hasClass('slick-initialized')) return;
+            if ($slider.data('bbf-autoplay')) return;
+            $slider.data('bbf-autoplay', true);
 
-			// Prevent multiple intervals
-			if ($slider.data('bbf-autoplay')) return;
-			$slider.data('bbf-autoplay', true);
+            // Turn off Slick's adaptiveHeight so it no longer calls animateHeight()
+            // or setHeight() on slide transitions. Heights will be managed below.
+            $slider.slick('slickSetOption', 'adaptiveHeight', false, false);
 
-			var interval = 5000; // 5 seconds
-			var timer = setInterval(function () {
-				$slider.slick('slickNext');
-			}, interval);
+            // Capture the tallest slide height (and the slider's current rendered height)
+            // so we can pin both the container and list to this value.
+            var maxHeight = $slider.outerHeight() || 0;
+            $slider.find('.wpr-slider-item').each(function () {
+                var h = $(this).outerHeight(true) || 0;
+                if (h > maxHeight) maxHeight = h;
+            });
 
-			// Pause on hover
-			$slider.hover(
-				function () {
-					clearInterval(timer);
-				},
-				function () {
-					timer = setInterval(function () {
-						$slider.slick('slickNext');
-					}, interval);
-				}
-			);
-		});
-	}
+            function pinHeight() {
+                if (!maxHeight) return;
+                // min-height prevents WPR's afterChange from shrinking the slider
+                // (CSS resolves rendered height = max(min-height, height)).
+                $slider.css('min-height', maxHeight + 'px');
+                $slider.find('.slick-list').css('min-height', maxHeight + 'px');
+                // Also set height explicitly to override any in-progress jQuery animate.
+                $slider.css('height', maxHeight + 'px');
+                $slider.find('.slick-list').css('height', maxHeight + 'px');
+            }
 
-	// Elementor/Royal Addons may initialize sliders after DOM ready
-	$(document).ready(function () {
-		// Try immediately
-		initAutoplay();
-		// Listen for Elementor frontend events (for dynamic content)
-		$(window).on('elementor/frontend/init', function () {
-			setTimeout(initAutoplay, 500);
-		});
-		// Listen for Royal Addons slider events (if any)
-		$(document).on('wpr-slick-init', function () {
-			setTimeout(initAutoplay, 500);
-		});
-		// Fallback: try again after 2 seconds in case of async load
-		setTimeout(initAutoplay, 2000);
-	});
+            pinHeight();
+
+            // WPR registers its afterChange handler before ours, so ours fires last
+            // and overrides the height WPR set on the container.
+            $slider.on('afterChange.bbf', function () {
+                pinHeight();
+            });
+
+            var interval = 5000;
+            var timer = setInterval(function () {
+                $slider.slick('slickNext');
+            }, interval);
+
+            $slider.hover(
+                function () { clearInterval(timer); },
+                function () {
+                    timer = setInterval(function () {
+                        $slider.slick('slickNext');
+                    }, interval);
+                }
+            );
+        });
+    }
+
+    $(document).ready(function () {
+        initAutoplay();
+        $(window).on('elementor/frontend/init', function () {
+            setTimeout(initAutoplay, 500);
+        });
+        $(document).on('wpr-slick-init', function () {
+            setTimeout(initAutoplay, 500);
+        });
+        setTimeout(initAutoplay, 2000);
+    });
 })(jQuery);

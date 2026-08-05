@@ -1861,6 +1861,12 @@ p.no-margin-bottom,
     min-width: auto;
 }
 
+/* Prevent any CSS transition on slick-list height (JS pins height directly on container + list). */
+.bbf-slider .wpr-advanced-slider,
+.bbf-slider .wpr-advanced-slider .slick-list {
+    transition: height 0s !important;
+}
+
 .icon-container {
 	min-height:139px;
 }
