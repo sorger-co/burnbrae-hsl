@@ -3,7 +3,7 @@ name: Deploy WordPress Theme to Lightsail
 on:
   push:
     branches:
-      - main
+      - develop
 
 jobs:
   deploy:
@@ -20,7 +20,7 @@ jobs:
       - name: Setup SSH Key
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          echo "${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY_STG }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H 15.157.195.100 >> ~/.ssh/known_hosts
 

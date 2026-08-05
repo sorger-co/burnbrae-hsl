@@ -9,7 +9,7 @@ jQuery(document).ready(function ($) {
 		if (currentPage >= maxPages) return;
 		loading = true;
 		var initialBtnText = $btn.text();
-		$btn.text('Loading...');
+		$btn.text(healthcare_i18n.loading);
 		$.ajax({
 			url: healthcare_ajax_loadmore.ajax_url,
 			type: 'POST',

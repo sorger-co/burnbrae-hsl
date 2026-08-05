@@ -110,22 +110,22 @@ $has_product_recipes = $recipe_query->have_posts();
       <div class="container">
         <?php if ( $product_info_exists ) : ?>
           <div>
-            <button type="button" class="tab-btn" data-tab="tab1"><span class="tab-title-left"><span class="tab-title-before tab-pi"></span>Product Information</span><span class="tab-title-after"></span></button>
+            <button type="button" class="tab-btn" data-tab="tab1"><span class="tab-title-left"><span class="tab-title-before tab-pi"></span><?php echo hsl_esc_html__( 'Product Information' ); ?></span><span class="tab-title-after"></span></button>
           </div>
         <?php endif; ?>
         <?php if ( $nutrition_info_exists ) : ?>
         <div>
-          <button type="button" class="tab-btn" data-tab="tab2"><span class="tab-title-left"><span class="tab-title-before tab-ni"></span>Nutrition Information</span><span class="tab-title-after"></span></button>
+          <button type="button" class="tab-btn" data-tab="tab2"><span class="tab-title-left"><span class="tab-title-before tab-ni"></span><?php echo hsl_esc_html__( 'Nutrition Information' ); ?></span><span class="tab-title-after"></span></button>
         </div>
         <?php endif; ?>
         <?php if ( $heating_instructions_exists ) : ?>
           <div>
-            <button type="button" class="tab-btn" data-tab="tab3"><span class="tab-title-left"><span class="tab-title-before tab-hi"></span>Heating Instructions</span><span class="tab-title-after"></span></button>
+            <button type="button" class="tab-btn" data-tab="tab3"><span class="tab-title-left"><span class="tab-title-before tab-hi"></span><?php echo hsl_esc_html__( 'Heating Instructions' ); ?></span><span class="tab-title-after"></span></button>
           </div>
         <?php endif; ?>
         <?php if ( $has_product_recipes ) : ?>
           <div>
-            <button type="button" class="tab-btn tab-rr" data-tab="tab4"><span class="tab-title-left"><span class="tab-title-before tab-rr"></span>Recipes</span><span class="tab-title-after"></span></button>
+            <button type="button" class="tab-btn tab-rr" data-tab="tab4"><span class="tab-title-left"><span class="tab-title-before tab-rr"></span><?php echo hsl_esc_html__( 'Recipes' ); ?></span><span class="tab-title-after"></span></button>
           </div>
         <?php endif; ?>
       </div>
@@ -138,36 +138,36 @@ $has_product_recipes = $recipe_query->have_posts();
             <div class="tab-pi-left-1">
               <p>  
                 <?php if ( $sku ) : ?>
-                  <strong>Product Number:</strong> <?php echo esc_html( $sku ); ?><br />
+                  <strong><?php echo hsl_esc_html__( 'Product Number:' ); ?></strong> <?php echo esc_html( $sku ); ?><br />
                 <?php endif; ?>
                 <?php if ( $upc ) : ?>
-                  <strong>UPC:</strong> <?php echo esc_html( $upc ); ?><br />
+                  <strong><?php echo hsl_esc_html__( 'UPC:' ); ?></strong> <?php echo esc_html( $upc ); ?><br />
                 <?php endif; ?>
                 <?php if ( $scc ) : ?>
-                  <strong>SCC:</strong> <?php echo esc_html( $scc ); ?><br />
+                  <strong><?php echo hsl_esc_html__( 'SCC:' ); ?></strong> <?php echo esc_html( $scc ); ?><br />
                 <?php endif; ?>
               </p>
               <p>
                 <?php if ( $kosher ) : ?>
-                  <strong>Kosher:</strong> <?php echo $kosher === 'yes' ? 'Yes' : 'No'; ?><br />
+                  <strong><?php echo hsl_esc_html__( 'Kosher:' ); ?></strong> <?php echo $kosher === 'yes' ? hsl_esc_html__( 'Yes' ) : hsl_esc_html__( 'No' ); ?><br />
                 <?php endif; ?>
                 <?php if ( $size ) : ?>
-                  <strong>Size:</strong> <?php echo esc_html( $size ); ?><br />
+                  <strong><?php echo hsl_esc_html__( 'Size:' ); ?></strong> <?php echo esc_html( $size ); ?><br />
                 <?php endif; ?>
                 <?php if ( $net_weight ) : ?>
-                  <strong>Net weight:</strong> <?php echo esc_html( $net_weight ); ?><br />
+                  <strong><?php echo hsl_esc_html__( 'Net weight:' ); ?></strong> <?php echo esc_html( $net_weight ); ?><br />
                 <?php endif; ?>
                 <?php if ( $shelf_life ) : ?>
-                  <strong>Shelf Life/Storage:</strong> <?php echo esc_html( $shelf_life ); ?><br />
+                  <strong><?php echo hsl_esc_html__( 'Shelf Life/Storage:' ); ?></strong> <?php echo esc_html( $shelf_life ); ?><br />
                 <?php endif; ?>
               </p>
             </div>
             <div class="tab-pi-left-2">
               <?php if ( $ingredients ) : ?>
-                <p><strong>Ingredients:</strong> <br /><?php echo nl2br( esc_html( $ingredients ) ); ?></p>
+                <p><strong><?php echo hsl_esc_html__( 'Ingredients:' ); ?></strong> <br /><?php echo nl2br( esc_html( $ingredients ) ); ?></p>
               <?php endif; ?>
               <?php if ( $contains ) : ?>
-                <p><strong>Contains:</strong> <?php echo nl2br( esc_html( $contains ) ); ?></p>
+                <p><strong><?php echo hsl_esc_html__( 'Contains:' ); ?></strong> <?php echo nl2br( esc_html( $contains ) ); ?></p>
               <?php endif; ?>
             </div>
           </div>
@@ -223,14 +223,14 @@ $has_product_recipes = $recipe_query->have_posts();
                 <?php endif; ?>
                 <div class="item-details">
                   <h4 class="entry-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
-                  <a class="elementor-button elementor-button-link elementor-size-sm archive-view-btn" href="<?php the_permalink(); ?> ">View Recipe</a>
+                  <a class="elementor-button elementor-button-link elementor-size-sm archive-view-btn" href="<?php the_permalink(); ?> "><?php echo hsl_esc_html__( 'View Recipe' ); ?></a>
                 </div>
               </div>
             <?php endwhile; wp_reset_postdata(); ?>
           </div>
-          <div class="healthcare-formulated-legend"><span class="healthcare-formulated"></span> Healthcare formulated</div>
+          <div class="healthcare-formulated-legend"><span class="healthcare-formulated"></span> <?php echo hsl_esc_html__( 'Healthcare formulated' ); ?></div>
         <?php else : ?>
-          <p>No recipes found featuring this product.</p>
+          <p><?php echo hsl_esc_html__( 'No recipes found featuring this product.' ); ?></p>
         </div>
         <?php endif; ?>
       </div>

@@ -63,19 +63,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</div>
 		<?php
 		$curr_cat = get_queried_object(); 
-	$curr_cat_parent = $curr_cat->parent;
-		if ( $curr_cat_parent == 19) {
+		$curr_cat_parent = ( $curr_cat instanceof WP_Term ) ? $curr_cat->parent : 0;
+		if ( hsl_current_product_category_parent_is_translation( 19 ) ) {
 			echo do_shortcode( '[INSERT_ELEMENTOR id="2133"]' );
 	} elseif (
-		$curr_cat->term_id != 21 &&
-		$curr_cat->term_id != 22 &&
-		$curr_cat_parent != 21 &&
-		$curr_cat_parent != 22
+		! hsl_is_current_product_category_translation( 21 ) &&
+		! hsl_is_current_product_category_translation( 22 ) &&
+		! hsl_current_product_category_parent_is_translation( 21 ) &&
+		! hsl_current_product_category_parent_is_translation( 22 )
 	) {
 			echo do_shortcode( '[INSERT_ELEMENTOR id="2051"]' );
 		}
 
-		if( is_product_category(20) ) {
+		if( hsl_is_current_product_category_translation( 20 ) ) {
 			echo do_shortcode( '[INSERT_ELEMENTOR id="2068"]' );
 		}
 

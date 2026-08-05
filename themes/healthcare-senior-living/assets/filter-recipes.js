@@ -15,6 +15,40 @@ jQuery(document).ready(function ($) {
 		return filterData;
 	}
 
+	function hasActiveFilters() {
+		return Object.keys(currentFilters).length > 0;
+	}
+
+	function resetUnavailableFilters() {
+		$('.recipe-accordion-filter .recipe-filter')
+			.prop('disabled', false)
+			.closest('label')
+			.removeClass('unavailable');
+	}
+
+	function updateUnavailableFilters(unavailableTerms) {
+		resetUnavailableFilters();
+
+		if (!unavailableTerms) return;
+
+		$('.recipe-accordion-filter .recipe-filter').each(function () {
+			var $cb = $(this);
+			var tax = $cb.attr('name').replace('[]', '');
+			var val = $cb.val();
+
+			if (
+				!$cb.is(':checked') &&
+				unavailableTerms[tax] &&
+				unavailableTerms[tax].includes(val)
+			) {
+				$cb
+					.prop('disabled', true)
+					.closest('label')
+					.addClass('unavailable');
+			}
+		});
+	}
+
 	$('.recipe-accordion-filter').on('change', '.recipe-filter', function () {
 		currentFilters = getCurrentFilters();
 		var filterData = Object.assign({}, currentFilters);
@@ -28,9 +62,10 @@ jQuery(document).ready(function ($) {
 			beforeSend: function () {
 				$('.archive-grid').addClass('loading');
 				$loadMoreBtn.hide();
+				resetUnavailableFilters();
 			},
 			success: function (res) {
-				if (res.success && res.data.html) {
+				if (res.success && res.data && typeof res.data.html !== 'undefined') {
 					$('.archive-grid').html(res.data.html);
 					// If there are more pages, show load more and reset its state
 					if (res.data.has_more) {
@@ -41,31 +76,15 @@ jQuery(document).ready(function ($) {
 				}
 				$('.archive-grid').removeClass('loading');
 
-				// Mark unavailable filter options
-				if (res.data.unavailable_terms) {
-					$('.recipe-accordion-filter .recipe-filter').each(function () {
-						var $cb = $(this);
-						var tax = $cb.attr('name').replace('[]', '');
-						var val = $cb.val();
-						if (
-							res.data.unavailable_terms[tax] &&
-							res.data.unavailable_terms[tax].includes(val)
-						) {
-							$cb
-								.prop('disabled', true)
-								.closest('label')
-								.addClass('unavailable');
-						} else {
-							$cb
-								.prop('disabled', false)
-								.closest('label')
-								.removeClass('unavailable');
-						}
-					});
+				if (hasActiveFilters()) {
+					updateUnavailableFilters(res.data.unavailable_terms);
+				} else {
+					resetUnavailableFilters();
 				}
 			},
 			error: function () {
 				$('.archive-grid').removeClass('loading');
+				resetUnavailableFilters();
 			},
 		});
 	});
@@ -79,7 +98,7 @@ jQuery(document).ready(function ($) {
 		filterData['action'] = 'healthcare_filter_recipes';
 		filterData['query_vars'] = healthcare_ajax_loadmore.query_vars;
 		filterData['paged'] = currentPage + 1;
-		$loadMoreBtn.addClass('loading').text('Loading...');
+		$loadMoreBtn.addClass('loading').text(healthcare_i18n.loading);
 		$.ajax({
 			url: healthcare_ajax_loadmore.ajax_url,
 			type: 'POST',
