@@ -79,8 +79,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 			echo do_shortcode( '[INSERT_ELEMENTOR id="2068"]' );
 		}
 
-		if( hsl_is_current_product_category_translation( 21 ) || hsl_is_current_product_category_translation( 22 ) ) {
+		if( hsl_is_current_product_category_translation( 21 ) ) {
 			echo do_shortcode( '[INSERT_ELEMENTOR id="3794"]' );
+		}
+
+		if( hsl_is_current_product_category_translation( 22 ) ) {
+			// echo do_shortcode( '[INSERT_ELEMENTOR id="4813"]' ); //only for local development
+			echo do_shortcode( '[INSERT_ELEMENTOR id="5102"]' );
 		}
 	}
 
