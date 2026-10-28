@@ -26,4 +26,4 @@ jobs:
 
       - name: Deploy Theme Files
         run: |
-          scp -r "$GITHUB_WORKSPACE/themes/healthcare-senior-living" bitnami@15.157.195.100:/opt/bitnami/wordpress/wp-content/themes/
+          scp -r "$GITHUB_WORKSPACE/themes/healthcare-senior-living" admin@15.157.195.100:/var/www/html/wp-content/themes/

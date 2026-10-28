@@ -208,7 +208,7 @@ function display_egg_size_attributes_on_loop() {
     if ( ! empty($value) ) {
         $attributes = array_map(function($attr) {
             // Convert attribute names to lowercase and replace spaces with dashes
-            return '<div class="hsl-egg-size-attr ' . esc_attr( strtolower( str_replace(' ', '-', $attr) ) ) . '">'.$attr.'</div>';
+            return '<div class="hsl-egg-size-attr ' . esc_attr( strtolower( str_replace(' ', '-', $attr) ) ) . '">' . esc_html( $attr ) . '</div>';
         }, explode(', ', $value)); // Assuming attributes are comma-separated
 
         echo '<div class="hsl-egg-sizes">'. implode(' ', $attributes) . '</div>';

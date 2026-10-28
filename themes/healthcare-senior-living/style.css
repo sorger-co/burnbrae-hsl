@@ -208,7 +208,7 @@ p.no-margin-bottom,
 .woocommerce ul.products li.product .button:after,
 .related-product-slide .product .button::after,
 .single-recipe .recipe-featured-products .products-list .button:after {
-	content: '►';
+	content: '\25BA';
 	margin-left: 0.3em;
 }
 .woocommerce .hsl-loop-container.shell-eggs ul.products li.product .button {

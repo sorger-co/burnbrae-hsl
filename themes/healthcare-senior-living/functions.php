@@ -20,6 +20,7 @@ include(get_stylesheet_directory() . '/inc/woocommerce.php');
 include(get_stylesheet_directory() . '/inc/polylang-strings.php');
 include(get_stylesheet_directory() . '/inc/archive-grid.php');
 include(get_stylesheet_directory() . '/inc/recipes.php');
+include(get_stylesheet_directory() . '/inc/security.php');
 
 /* Current Year Shortcode */
 function current_year_shortcode() {
@@ -52,9 +53,41 @@ function healthcare_enqueue_loadmore_script() {
 }
 add_action('wp_enqueue_scripts', 'healthcare_enqueue_loadmore_script');
 
+/**
+ * Rebuild archive query vars posted by the public AJAX handlers, keeping only
+ * the archive-defining keys so visitors can't pass arbitrary WP_Query args.
+ */
+function healthcare_sanitize_ajax_query_vars() {
+    $raw = isset($_POST['query_vars']) ? json_decode(wp_unslash($_POST['query_vars']), true) : array();
+    if (!is_array($raw)) {
+        return array();
+    }
+
+    $allowed = array('lang', 'category_name', 'tag', 'author_name', 'year', 'monthnum', 'day');
+    foreach (get_taxonomies(array('public' => true), 'objects') as $taxonomy) {
+        if ($taxonomy->query_var) {
+            $allowed[] = $taxonomy->query_var;
+        }
+    }
+
+    $query_vars = array();
+    foreach ($allowed as $key) {
+        if (isset($raw[$key]) && is_scalar($raw[$key])) {
+            $query_vars[$key] = sanitize_text_field((string) $raw[$key]);
+        }
+    }
+
+    $public_types = get_post_types(array('public' => true));
+    if (isset($raw['post_type']) && is_string($raw['post_type']) && isset($public_types[$raw['post_type']])) {
+        $query_vars['post_type'] = $raw['post_type'];
+    }
+
+    return $query_vars;
+}
+
 function healthcare_load_more_ajax_handler() {
-    $query_vars = json_decode(stripslashes($_POST['query_vars']), true);
-    $paged = isset($_POST['paged']) ? intval($_POST['paged']) : 1;
+    $query_vars = healthcare_sanitize_ajax_query_vars();
+    $paged = isset($_POST['paged']) ? max(1, intval($_POST['paged'])) : 1;
     $query_vars['paged'] = $paged;
     $query_vars['post_status'] = 'publish';
     $archive_query = new WP_Query($query_vars);
@@ -73,7 +106,7 @@ add_action('wp_ajax_healthcare_load_more', 'healthcare_load_more_ajax_handler');
 add_action('wp_ajax_nopriv_healthcare_load_more', 'healthcare_load_more_ajax_handler');
 
 function healthcare_filter_recipes_ajax_handler() {
-    $query_vars = json_decode(stripslashes($_POST['query_vars']), true);
+    $query_vars = healthcare_sanitize_ajax_query_vars();
     $tax_query = array('relation' => 'AND');
     $taxonomies = array('meal_type', 'product_family', 'recipe_attribute');
     foreach ($taxonomies as $tax) {
@@ -81,7 +114,7 @@ function healthcare_filter_recipes_ajax_handler() {
             $tax_query[] = array(
                 'taxonomy' => $tax,
                 'field' => 'slug',
-                'terms' => array_map('sanitize_text_field', $_POST[$tax]),
+                'terms' => array_map('sanitize_title', wp_unslash($_POST[$tax])),
             );
         }
     }
@@ -89,7 +122,7 @@ function healthcare_filter_recipes_ajax_handler() {
         $query_vars['tax_query'] = $tax_query;
     }
     $query_vars['post_status'] = 'publish';
-    $paged = isset($_POST['paged']) ? intval($_POST['paged']) : 1;
+    $paged = isset($_POST['paged']) ? max(1, intval($_POST['paged'])) : 1;
     $query_vars['paged'] = $paged;
     $archive_query = new WP_Query($query_vars);
     ob_start();
