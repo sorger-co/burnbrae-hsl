@@ -5,6 +5,16 @@ on:
     branches:
       - main
 
+# Only one deploy at a time, so one run can't close SSH while another is copying
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+env:
+  AWS_REGION: ca-central-1
+  LIGHTSAIL_INSTANCE: ${{ vars.LIGHTSAIL_INSTANCE_NAME }}
+  SERVER_IP: 15.157.195.100
+
 jobs:
   deploy:
     name: Deploy Theme via SSH
@@ -14,16 +24,45 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: List checked-out files
-        run: ls -R
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      # Allow SSH from this runner only; lightsail-connect keeps browser SSH working
+      - name: Open SSH for Runner IP
+        run: |
+          RUNNER_IP=$(curl -s https://checkip.amazonaws.com)
+          echo "RUNNER_IP=$RUNNER_IP" >> "$GITHUB_ENV"
+          aws lightsail open-instance-public-ports \
+            --instance-name "$LIGHTSAIL_INSTANCE" \
+            --port-info "fromPort=22,toPort=22,protocol=TCP,cidrs=$RUNNER_IP/32,cidrListAliases=lightsail-connect"
 
       - name: Setup SSH Key
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H 15.157.195.100 >> ~/.ssh/known_hosts
+          # Firewall changes take a few seconds to apply
+          for i in $(seq 1 12); do
+            ssh-keyscan -H "$SERVER_IP" >> ~/.ssh/known_hosts 2>/dev/null && [ -s ~/.ssh/known_hosts ] && break
+            sleep 5
+          done
+          [ -s ~/.ssh/known_hosts ] || { echo "SSH port not reachable"; exit 1; }
 
       - name: Deploy Theme Files
         run: |
-          scp -r "$GITHUB_WORKSPACE/themes/healthcare-senior-living" admin@15.157.195.100:/var/www/html/wp-content/themes/
+          scp -r "$GITHUB_WORKSPACE/themes/healthcare-senior-living" admin@$SERVER_IP:/var/www/html/wp-content/themes/
+
+      # Always runs: reset port 22 to browser SSH only
+      - name: Close SSH for Runner IP
+        if: always() && env.RUNNER_IP != ''
+        run: |
+          aws lightsail close-instance-public-ports \
+            --instance-name "$LIGHTSAIL_INSTANCE" \
+            --port-info "fromPort=22,toPort=22,protocol=TCP,cidrs=$RUNNER_IP/32,cidrListAliases=lightsail-connect"
+          aws lightsail open-instance-public-ports \
+            --instance-name "$LIGHTSAIL_INSTANCE" \
+            --port-info "fromPort=22,toPort=22,protocol=TCP,cidrListAliases=lightsail-connect"
