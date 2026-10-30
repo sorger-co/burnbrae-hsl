@@ -22,6 +22,9 @@ include(get_stylesheet_directory() . '/inc/archive-grid.php');
 include(get_stylesheet_directory() . '/inc/recipes.php');
 include(get_stylesheet_directory() . '/inc/security.php');
 
+/* Drop per-archive feed links; translated product category feeds 404 */
+remove_action( 'wp_head', 'feed_links_extra', 3 );
+
 /* Current Year Shortcode */
 function current_year_shortcode() {
 	$year = date('Y');	
