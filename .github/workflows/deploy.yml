@@ -10,6 +10,9 @@ concurrency:
   group: deploy-production
   cancel-in-progress: false
 
+permissions:
+  contents: read
+
 env:
   AWS_REGION: ca-central-1
   LIGHTSAIL_INSTANCE: ${{ vars.LIGHTSAIL_INSTANCE_NAME }}
@@ -43,18 +46,27 @@ jobs:
       - name: Setup SSH Key
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.LIGHTSAIL_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+          chmod 700 ~/.ssh
+          echo "${{ secrets.LIGHTSAIL_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          # Pinned host key, verified against the server; never scanned at deploy time
+          echo "${{ secrets.LIGHTSAIL_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
           # Firewall changes take a few seconds to apply
           for i in $(seq 1 12); do
-            ssh-keyscan -H "$SERVER_IP" >> ~/.ssh/known_hosts 2>/dev/null && [ -s ~/.ssh/known_hosts ] && break
+            nc -z -w 5 "$SERVER_IP" 22 && exit 0
             sleep 5
           done
-          [ -s ~/.ssh/known_hosts ] || { echo "SSH port not reachable"; exit 1; }
+          echo "SSH port not reachable"
+          exit 1
 
+      # Mirror the theme: files deleted from the repo are removed from the server too
       - name: Deploy Theme Files
         run: |
-          scp -r "$GITHUB_WORKSPACE/themes/healthcare-senior-living" admin@$SERVER_IP:/var/www/html/wp-content/themes/
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes" \
+            "$GITHUB_WORKSPACE/themes/healthcare-senior-living" \
+            "${{ secrets.LIGHTSAIL_USER }}@$SERVER_IP:/var/www/html/wp-content/themes/"
 
       # Always runs: reset port 22 to browser SSH only
       - name: Close SSH for Runner IP
